@@ -2,9 +2,9 @@ import java.util.ArrayList;
 
 class Tuple {
   private ArrayList<String> states;
-  ArrayList<String> alphabets;
-  Transitions transitions;
-  String initialState;
+  private ArrayList<String> alphabets;
+  private Transitions transitions;
+  private String initialState;
   ArrayList<String> finalStates;
 
   Tuple(ArrayList<String> states, ArrayList<String> alphabets, Transitions transitions, String initialState, ArrayList<String> finalStates) {
@@ -22,21 +22,38 @@ class Tuple {
 
     Tuple tuple = (Tuple) o;
 
-    if (states != null ? !states.equals(tuple.states) : tuple.states != null) return false;
-    if (alphabets != null ? !alphabets.equals(tuple.alphabets) : tuple.alphabets != null) return false;
-    if (transitions != null ? !transitions.equals(tuple.transitions) : tuple.transitions != null) return false;
-    if (initialState != null ? !initialState.equals(tuple.initialState) : tuple.initialState != null) return false;
-    return finalStates != null ? finalStates.equals(tuple.finalStates) : tuple.finalStates == null;
+    return getStates() != null ? getStates().equals(tuple.getStates()) : tuple.getStates() == null &&
+      (getAlphabets() != null ? getAlphabets().equals(tuple.getAlphabets()) : tuple.getAlphabets() == null &&
+        (getTransitions() != null ? getTransitions().equals(tuple.getTransitions()) : tuple.getTransitions() == null && (
+          getInitialState() != null ? getInitialState().equals(tuple.getInitialState()) : tuple.getInitialState() == null &&
+            (finalStates != null ? finalStates.equals(tuple.finalStates) : tuple.finalStates == null))));
 
   }
 
   @Override
   public int hashCode() {
-    int result = states != null ? states.hashCode() : 0;
-    result = 31 * result + (alphabets != null ? alphabets.hashCode() : 0);
-    result = 31 * result + (transitions != null ? transitions.hashCode() : 0);
-    result = 31 * result + (initialState != null ? initialState.hashCode() : 0);
+    int result = getStates() != null ? getStates().hashCode() : 0;
+    result = 31 * result + (getAlphabets() != null ? getAlphabets().hashCode() : 0);
+    result = 31 * result + (getTransitions() != null ? getTransitions().hashCode() : 0);
+    result = 31 * result + (getInitialState() != null ? getInitialState().hashCode() : 0);
     result = 31 * result + (finalStates != null ? finalStates.hashCode() : 0);
     return result;
   }
+
+  private ArrayList<String> getStates() {
+    return states;
+  }
+
+  ArrayList<String> getAlphabets() {
+    return alphabets;
+  }
+
+  Transitions getTransitions() {
+    return transitions;
+  }
+
+  String getInitialState() {
+    return initialState;
+  }
+
 }

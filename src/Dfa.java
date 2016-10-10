@@ -1,17 +1,16 @@
 import java.util.ArrayList;
 
-public class Dfa {
+class Dfa {
   private Tuple tuple;
-  public Dfa(Tuple tuple) {
+  Dfa(Tuple tuple) {
     this.tuple = tuple;
   }
 
-  public boolean process(){
-    String initialState = tuple.initialState;
-    String nextState = initialState;
+  boolean process(){
+    String nextState = tuple.getInitialState();
     ArrayList<String> finalStates = tuple.finalStates;
-    Transitions transitions = tuple.transitions;
-    ArrayList<String> alphabets = tuple.alphabets;
+    Transitions transitions = tuple.getTransitions();
+    ArrayList<String> alphabets = tuple.getAlphabets();
     for (String alphabet : alphabets) {
       nextState = transitions.process(nextState, alphabet);
     }

@@ -3,8 +3,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-public class JsonParser {
-  public Tuple parse(String jsonText) throws ParseException {
+class JsonParser {
+  Tuple parse(String jsonText) throws ParseException {
     JSONObject jsonObject = (JSONObject) new JSONParser().parse(jsonText);
     JSONArray states = (JSONArray)jsonObject.get("states");
     JSONArray alphabets = (JSONArray) jsonObject.get("alphabets");
