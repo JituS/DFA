@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 
 class Dfa {
   private Tuple tuple;
@@ -8,7 +9,7 @@ class Dfa {
 
   boolean process(){
     String nextState = tuple.getInitialState();
-    ArrayList<String> finalStates = tuple.finalStates;
+    HashSet<String> finalStates = tuple.getFinalStates();
     Transitions transitions = tuple.getTransitions();
     ArrayList<String> alphabets = tuple.getAlphabets();
     for (String alphabet : alphabets) {

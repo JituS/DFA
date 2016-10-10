@@ -1,13 +1,14 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 
 class Tuple {
-  private ArrayList<String> states;
+  private HashSet<String> states;
   private ArrayList<String> alphabets;
   private Transitions transitions;
   private String initialState;
-  ArrayList<String> finalStates;
+  private HashSet<String> finalStates;
 
-  Tuple(ArrayList<String> states, ArrayList<String> alphabets, Transitions transitions, String initialState, ArrayList<String> finalStates) {
+  Tuple(HashSet<String> states, ArrayList<String> alphabets, Transitions transitions, String initialState, HashSet<String> finalStates) {
     this.states = states;
     this.alphabets = alphabets;
     this.transitions = transitions;
@@ -26,7 +27,7 @@ class Tuple {
       (getAlphabets() != null ? getAlphabets().equals(tuple.getAlphabets()) : tuple.getAlphabets() == null &&
         (getTransitions() != null ? getTransitions().equals(tuple.getTransitions()) : tuple.getTransitions() == null && (
           getInitialState() != null ? getInitialState().equals(tuple.getInitialState()) : tuple.getInitialState() == null &&
-            (finalStates != null ? finalStates.equals(tuple.finalStates) : tuple.finalStates == null))));
+            (getFinalStates() != null ? getFinalStates().equals(tuple.getFinalStates()) : tuple.getFinalStates() == null))));
 
   }
 
@@ -36,11 +37,11 @@ class Tuple {
     result = 31 * result + (getAlphabets() != null ? getAlphabets().hashCode() : 0);
     result = 31 * result + (getTransitions() != null ? getTransitions().hashCode() : 0);
     result = 31 * result + (getInitialState() != null ? getInitialState().hashCode() : 0);
-    result = 31 * result + (finalStates != null ? finalStates.hashCode() : 0);
+    result = 31 * result + (getFinalStates() != null ? getFinalStates().hashCode() : 0);
     return result;
   }
 
-  private ArrayList<String> getStates() {
+  private HashSet<String> getStates() {
     return states;
   }
 
@@ -54,6 +55,10 @@ class Tuple {
 
   String getInitialState() {
     return initialState;
+  }
+
+  public HashSet<String> getFinalStates() {
+    return finalStates;
   }
 
 }
