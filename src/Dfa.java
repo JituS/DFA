@@ -1,15 +1,16 @@
 import java.util.ArrayList;
 
-class Dfa {
-  private Tuple tuple;
-  Dfa(Tuple tuple) {
+class Dfa{
+  private Tuple<ArrayList<String>, ArrayList<String>, Transitions, String, ArrayList<String>> tuple;
+  Dfa(Tuple<ArrayList<String>, ArrayList<String>, Transitions, String, ArrayList<String>> tuple) {
     this.tuple = tuple;
   }
   boolean process(){
-    String nextState = (String) tuple.getFourth();
-    ArrayList<String> finalStates = (ArrayList<String>) tuple.getFifth();
-    Transitions transitions = (Transitions) tuple.getThird();
-    ArrayList<String> alphabets = (ArrayList<String>) tuple.getSecond();
+    ArrayList<String> alphabets = tuple.getSecond();
+    Transitions transitions = tuple.getThird();
+    String nextState = tuple.getFourth();
+    ArrayList<String> finalStates = tuple.getFifth();
+
     for (String alphabet : alphabets) {
       nextState = transitions.process(nextState, alphabet);
     }
