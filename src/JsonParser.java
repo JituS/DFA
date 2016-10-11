@@ -3,6 +3,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.util.ArrayList;
+
 class JsonParser {
   Tuple parse(String jsonText) throws ParseException {
     JSONObject jsonObject = (JSONObject) new JSONParser().parse(jsonText);
@@ -16,6 +18,6 @@ class JsonParser {
       JSONArray eachTransition = (JSONArray) transition;
       allTransitions.setTransition((String) eachTransition.get(0), (String) eachTransition.get(1), (String) eachTransition.get(2));
     }
-    return new Tuple(states, alphabets, allTransitions, initialState, finalStates);
+    return new Tuple<ArrayList<String>,ArrayList<String>, Transitions, String, ArrayList<String>>(states, alphabets, allTransitions, initialState, finalStates);
   }
 }

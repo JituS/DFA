@@ -1,17 +1,15 @@
 import java.util.ArrayList;
-import java.util.HashSet;
 
 class Dfa {
   private Tuple tuple;
   Dfa(Tuple tuple) {
     this.tuple = tuple;
   }
-
   boolean process(){
-    String nextState = tuple.getInitialState();
-    HashSet<String> finalStates = tuple.getFinalStates();
-    Transitions transitions = tuple.getTransitions();
-    ArrayList<String> alphabets = tuple.getAlphabets();
+    String nextState = (String) tuple.getFourth();
+    ArrayList<String> finalStates = (ArrayList<String>) tuple.getFifth();
+    Transitions transitions = (Transitions) tuple.getThird();
+    ArrayList<String> alphabets = (ArrayList<String>) tuple.getSecond();
     for (String alphabet : alphabets) {
       nextState = transitions.process(nextState, alphabet);
     }

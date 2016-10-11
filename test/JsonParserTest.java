@@ -17,7 +17,7 @@ public class JsonParserTest {
     ArrayList<String> alphabets = new ArrayList<String>() {{add("1");}};
     String initialState = "q1";
     ArrayList<String> finalStates = new ArrayList<String>() {{add("q1");}};
-    Tuple expectedTuple = new Tuple(states, alphabets, transitions, initialState, finalStates);
+    Tuple<ArrayList<String>, ArrayList<String>, Transitions, String, ArrayList<String>> expectedTuple = new Tuple<>(states, alphabets, transitions, initialState, finalStates);
 
     Assert.assertEquals(expectedTuple, actualTuple);
   }

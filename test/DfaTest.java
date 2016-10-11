@@ -13,7 +13,7 @@ public class DfaTest {
     ArrayList<String> finalStates = new ArrayList<String>() {{
       add("q2");
     }};
-    Tuple tuple = new Tuple(states, alphabets, transitions, initialState, finalStates);
+    Tuple<ArrayList<String>, ArrayList<String>, Transitions, String, ArrayList<String>> tuple = new Tuple<>(states, alphabets, transitions, initialState, finalStates);
     Dfa dfa = new Dfa(tuple);
     boolean result = dfa.process();
     Assert.assertTrue(result);
@@ -36,7 +36,7 @@ public class DfaTest {
       add("q1");
       add("q2");
     }};
-    Tuple tuple = new Tuple(states, alphabets, transitions, initialState, finalStates);
+    Tuple<ArrayList<String>, ArrayList<String>, Transitions, String, ArrayList<String>> tuple = new Tuple<>(states, alphabets, transitions, initialState, finalStates);
     Dfa dfa = new Dfa(tuple);
     boolean result = dfa.process();
     Assert.assertTrue(result);
@@ -65,7 +65,7 @@ public class DfaTest {
     ArrayList<String> finalStates = new ArrayList<String>() {{
       add("q5");
     }};
-    Tuple tuple = new Tuple(states, alphabets, transitions, initialState, finalStates);
+    Tuple<ArrayList<String>, ArrayList<String>, Transitions, String, ArrayList<String>> tuple = new Tuple<>(states, alphabets, transitions, initialState, finalStates);
     Dfa dfa = new Dfa(tuple);
     boolean result = dfa.process();
     Assert.assertTrue(result);
