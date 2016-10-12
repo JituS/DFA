@@ -3,7 +3,7 @@ import org.junit.Test;
 
 public class TransitionsTest {
   @Test
-  public void shouldReturnNewNextState() throws Exception {
+  public void shouldReturnNextState() throws Exception {
     Transitions transitions = new Transitions();
     transitions.setTransition("q1", "q2", "1");
     String nextState = transitions.process("q1", "1");
