@@ -10,7 +10,7 @@ public class DFAIntegrationTest {
       "\"finalStates\":[\"q4\"], \"transitions\":[[\"q1\", \"q2\", \"1\"],[\"q1\", \"q2\", \"0\"],[\"q2\", \"q3\", \"1\"],[\"q2\", \"q3\", \"0\"]" +
       ",[\"q3\", \"q4\", \"1\"],[\"q3\", \"q5\", \"0\"],[\"q4\", \"q4\", \"1\"],[\"q4\", \"q4\", \"0\"],[\"q5\", \"q5\", \"1\"],[\"q5\", \"q5\", \"0\"]]}";
 
-    Tuple tuple = new JsonParser().parse(json);
+    Tuple tuple = new JsonToTupleParser().parse(json);
     ArrayList<String> inputString = new ArrayList<String>(){{add("1"); add("0"); add("1"); add("0");add("1"); add("0");}};
     boolean result = new Dfa(tuple).process(inputString);
 

@@ -3,13 +3,13 @@ import java.util.Map;
 
 class Transitions {
 
-  private Map<String, Map<String, String>> transitions = new HashMap<>();
-  void setTransition(String state1, String state2, String alphabet) {
+  private Map<State, Map<String, State>> transitions = new HashMap<>();
+  void setTransition(State state1, State state2, String alphabet) {
     transitions.putIfAbsent(state1, new HashMap<>());
     transitions.get(state1).put(alphabet, state2);
   }
 
-  String process(String state, String alphabet) {
+  State process(State state, String alphabet) {
     if(transitions.containsKey(state)){
       return transitions.get(state).get(alphabet);
     }

@@ -13,23 +13,19 @@ class Tuple<S, A, T, I, F> {
     this.fifth = fifth;
   }
 
-  public S getFirst() {
-    return first;
-  }
-
-  public A getSecond() {
+  A getSecond() {
     return second;
   }
 
-  public T getThird() {
+  T getThird() {
     return third;
   }
 
-  public I getFourth() {
+  I getFourth() {
     return fourth;
   }
 
-  public F getFifth() {
+  F getFifth() {
     return fifth;
   }
 

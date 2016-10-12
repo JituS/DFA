@@ -1,7 +1,5 @@
-public class InvalidStringException extends Throwable {
-  public InvalidStringException() {
+class InvalidStringException extends Throwable {
+  InvalidStringException() {
     super("Invalid String");
   }
-
-
 }

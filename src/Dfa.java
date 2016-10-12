@@ -1,15 +1,19 @@
 import java.util.ArrayList;
+import java.util.List;
 
 class Dfa{
-  private Tuple<ArrayList<String>, ArrayList<String>, Transitions, String, ArrayList<String>> tuple;
-  Dfa(Tuple<ArrayList<String>, ArrayList<String>, Transitions, String, ArrayList<String>> tuple) {
+
+  private Tuple<List<State>, ArrayList<String>, Transitions, State, List<State>> tuple;
+
+  Dfa(Tuple<List<State>, ArrayList<String>, Transitions, State, List<State>> tuple) {
     this.tuple = tuple;
   }
   boolean process(ArrayList<String> inputString) throws InvalidStringException {
     ArrayList<String> alphabets = tuple.getSecond();
     Transitions transitions = tuple.getThird();
-    String nextState = tuple.getFourth();
-    ArrayList<String> finalStates = tuple.getFifth();
+    State nextState = tuple.getFourth();
+    List<State> finalStates = tuple.getFifth();
+
     if(!isStringValid(inputString, alphabets)){
       throw new InvalidStringException();
     }
