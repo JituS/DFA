@@ -1,16 +1,16 @@
 package dfa;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class Tuple {
   private Set<State> states;
-  private ArrayList<String> alphabets;
+  private List<String> alphabets;
   private Transitions transitions;
   private State initialState;
 
   private Set<State> finalStates;
-  public Tuple(Set<State> states, ArrayList<String> alphabets, Transitions transitions, State initialState, Set<State> finalStates){
+  public Tuple(Set<State> states, List<String> alphabets, Transitions transitions, State initialState, Set<State> finalStates){
     this.states = states;
     this.alphabets = alphabets;
     this.transitions = transitions;
@@ -18,19 +18,19 @@ public class Tuple {
     this.finalStates = finalStates;
   }
 
-  public ArrayList<String> getAlphabets() {
+  List<String> getAlphabets() {
     return alphabets;
   }
 
-  public Transitions getTransitions() {
+  Transitions getTransitions() {
     return transitions;
   }
 
-  public State getInitialState() {
+  State getInitialState() {
     return initialState;
   }
 
-  public Set<State> getFinalStates() {
+  Set<State> getFinalStates() {
     return finalStates;
   }
 

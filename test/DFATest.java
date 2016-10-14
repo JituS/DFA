@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class DFATest {
@@ -25,7 +26,7 @@ public class DFATest {
       add(q1);
       add(q2);
     }};
-    ArrayList<String> alphabets = new ArrayList<String>() {{
+    List<String> alphabets = new ArrayList<String>() {{
       add("0");
       add("1");
     }};
@@ -39,7 +40,7 @@ public class DFATest {
       add("0");
     }};
 
-    DFA dfa = new DFA(tuple, null, null, inputString, null);
+    DFA dfa = new DFA(tuple, null, null);
 
     boolean result = dfa.verify(inputString);
     Assert.assertTrue(result);
@@ -59,7 +60,7 @@ public class DFATest {
       add(q2);
       add(q3);
     }};
-    ArrayList<String> alphabets = new ArrayList<String>() {{
+    List<String> alphabets = new ArrayList<String>() {{
       add("1");
       add("0");
     }};
@@ -75,7 +76,7 @@ public class DFATest {
       add("1");
       add("0");
     }};
-    DFA dfa = new DFA(tuple, null, null, inputString, null);
+    DFA dfa = new DFA(tuple, null, null);
 
     boolean result = dfa.verify(inputString);
     Assert.assertTrue(result);
@@ -104,7 +105,7 @@ public class DFATest {
       add(q5);
       add(q6);
     }};
-    ArrayList<String> alphabets = new ArrayList<String>() {{
+    List<String> alphabets = new ArrayList<String>() {{
       add("1");
       add("0");
     }};
@@ -122,7 +123,7 @@ public class DFATest {
       add("0");
     }};
 
-    DFA dfa = new DFA(tuple, null, null, inputString, null);
+    DFA dfa = new DFA(tuple, null, null);
 
     boolean result = dfa.verify(inputString);
     Assert.assertTrue(result);

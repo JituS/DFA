@@ -1,17 +1,17 @@
-import dfa.DFA;
-import dfa.JsonToFAParser;
+import dfa.Builder;
+import dfa.FiniteAutomata;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Scanner;
 
 public class DFAIntegrationTest {
   @Test
   public void shouldReturnTrueIfStringIsAccepted() throws Exception {
-    String jsonString = "[{\"name\":\"odd number of zeroes\"," +
+    String jsonString = "{\"name\":\"odd number of zeroes\"," +
       "\"type\":\"dfa\"," +
       "\"tuple\":{\"states\":[\"q1\",\"q2\"]," +
       "\"alphabets\":[\"1\",\"0\"]," +
@@ -19,15 +19,18 @@ public class DFAIntegrationTest {
       "\"start-state\":\"q1\"," +
       "\"final-states\":[\"q2\"]}," +
       "\"pass-cases\":[\"0\",\"000\",\"00000\",\"10\",\"101010\",\"010101\"]," +
-      "\"fail-cases\":[\"00\",\"0000\",\"1001\",\"1010\",\"001100\"]}]";
+      "\"fail-cases\":[\"00\",\"0000\",\"1001\",\"1010\",\"001100\"]}";
 
-    ArrayList<DFA> DFAs = new JsonToFAParser().parse(jsonString);
-    DFAs.forEach(this::testCases);
+    JSONObject FAJson = (JSONObject) new JSONParser().parse(jsonString);
+    Builder builder = new Builder(FAJson);
+
+    FiniteAutomata finiteAutomata = builder.buildFA();
+    ArrayList<String> passCases = builder.getPassCases();
+    ArrayList<String> failCases = builder.getFailCases();
+    testCases(finiteAutomata, passCases, failCases);
   }
 
-  private void testCases(DFA dfa) {
-    ArrayList<String> passCases = dfa.getPassCases();
-    ArrayList<String> failCases = dfa.getFailCases();
+  private void testCases(FiniteAutomata dfa, ArrayList<String> passCases, ArrayList<String> failCases) {
     for (String passCase : passCases) {
       ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(passCase.split("")));
       Assert.assertTrue(dfa.verify(arrayList));
@@ -36,20 +39,5 @@ public class DFAIntegrationTest {
       ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(failCase.split("")));
       Assert.assertFalse(dfa.verify(arrayList));
     }
-  }
-
-  @Test
-  public void shouldPassAllCasesForEachDFA() throws Exception {
-    Scanner scanner = new Scanner(new File("data/examples.json"));
-    StringBuilder jsonText = new StringBuilder();
-    while(scanner.hasNextLine()){
-      jsonText.append(scanner.nextLine());
-    }
-
-    String stripedJson = jsonText.toString().substring(1, jsonText.toString().length() - 1).replace("\\", "");
-
-    ArrayList<DFA> DFAs = new JsonToFAParser().parse(stripedJson);
-
-    DFAs.forEach(this::testCases);
   }
 }

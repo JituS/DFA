@@ -5,17 +5,17 @@ import org.json.simple.JSONObject;
 import java.util.*;
 import java.util.stream.Collectors;
 
-class DFABuilder {
+public class Builder {
 
   private JSONObject jsonObject;
 
-  DFABuilder(JSONObject jsonObject) {
+  public Builder(JSONObject jsonObject) {
     this.jsonObject = jsonObject;
   }
 
   private Tuple mapToTuple(JSONObject tuple) {
     Set<State> states = ((List<String>) tuple.get("states")).stream().map(State::new).collect(Collectors.toSet());
-    ArrayList<String> alphabets = (ArrayList<String>) tuple.get("alphabets");
+    List<String> alphabets = (ArrayList<String>) tuple.get("alphabets");
     JSONObject transitions = (JSONObject) tuple.get("delta");
     Transitions allTransitions = mapToTransitions(transitions);
     State initialState = new State((String) tuple.get("start-state"));
@@ -26,12 +26,11 @@ class DFABuilder {
 
   private Transitions mapToTransitions(JSONObject transitions) {
     Transitions allTransitions = new Transitions();
-    HashMap<String, HashMap<String, String>> allTransition = (HashMap<String, HashMap<String, String>>) transitions;
-
-    for (Map.Entry<String, HashMap<String, String>> eachTransition : allTransition.entrySet()) {
+    Map<String, Map<String, String>> allTransition = (Map<String, Map<String, String>>) transitions;
+    for (Map.Entry<String, Map<String, String>> eachTransition : allTransition.entrySet()) {
       State state = new State(eachTransition.getKey());
-      HashMap<String, String> transitionsForState = eachTransition.getValue();
-      for (Map.Entry<String, String> eachTransitionForState : transitionsForState.entrySet()) {
+      Map<String, String> transitionsOfState = eachTransition.getValue();
+      for (Map.Entry<String, String> eachTransitionForState : transitionsOfState.entrySet()) {
         State nextState = new State(eachTransitionForState.getValue());
         String alphabet = eachTransitionForState.getKey();
         allTransitions.setTransition(state, nextState, alphabet);
@@ -41,14 +40,19 @@ class DFABuilder {
     return allTransitions;
   }
 
-
-  DFA build() {
+  public FiniteAutomata buildFA() {
     String name = (String) jsonObject.get("name");
     String type = (String) jsonObject.get("type");
     JSONObject tuple = (JSONObject) jsonObject.get("tuple");
-    ArrayList<String> passCases = (ArrayList<String>) jsonObject.get("pass-cases");
-    ArrayList<String> failCases = (ArrayList<String>) jsonObject.get("fail-cases");
     Tuple tupleObject = mapToTuple(tuple);
-    return new DFA(tupleObject, name, type, passCases, failCases);
+    return new DFA(tupleObject, name, type);
+  }
+
+  public ArrayList<String> getPassCases() {
+    return  (ArrayList<String>) jsonObject.get("pass-cases");
+  }
+
+  public ArrayList<String> getFailCases() {
+    return  (ArrayList<String>) jsonObject.get("fail-cases");
   }
 }
