@@ -1,6 +1,6 @@
 .class
 *iml
-DFA.iml
+dfa.DFA.iml
 .idea
 out
 *.jar
