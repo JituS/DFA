@@ -29,20 +29,17 @@ public class TestRunner {
   }
 
   private static void testCases(FiniteAutomata dfa, ArrayList<String> cases, Cases someCase) {
-    for (String eachCase : cases) {
-      ArrayList<String> eachCaseSplit = new ArrayList<>(Arrays.asList(eachCase.split("")));
+    for (String testCase : cases) {
+      ArrayList<String> eachCaseSplit = new ArrayList<>(Arrays.asList(testCase.split("")));
       boolean result = someCase.verify(dfa, eachCaseSplit);
-      printStatus(eachCase, result);
+
+      if(result)  System.out.println("\t" + testCase + " : Passed ");
+      else System.out.println("\t" + testCase + " : Failed");
     }
   }
 
-  private static void printStatus(String passCase, boolean result) {
-    if(result)  System.out.println("\t" + passCase + " : Passed ");
-    else System.out.println("\t" + passCase + " : Failed");
-  }
-
   public static void main(String[] args) throws ParseException, FileNotFoundException {
-    Scanner scanner = new Scanner(new File("data/examples.json"));
+    Scanner scanner = new Scanner(new File("data/examples1.json"));
     StringBuilder jsonText = new StringBuilder();
     while(scanner.hasNextLine()){
       jsonText.append(scanner.nextLine());
@@ -53,13 +50,13 @@ public class TestRunner {
 
     for (Object fa : FAJson) {
       Builder builder = new Builder((JSONObject) fa);
-      FiniteAutomata dfaObject = builder.buildFA();
+      FiniteAutomata faObject = builder.buildFA();
       ArrayList<String> passCases = builder.getPassCases();
       ArrayList<String> failCases = builder.getFailCases();
-      System.out.println("Passing Cases For : " + dfaObject.getName());
-      testCases(dfaObject, passCases, new PassCase());
-      System.out.println("failing Cases For : " + dfaObject.getName());
-      testCases(dfaObject, failCases, new FailCase());
+      System.out.println("Passing Cases For : " + faObject.getName() + ", Type: " );
+      testCases(faObject, passCases, new PassCase());
+      System.out.println("failing Cases For : " + faObject.getName());
+      testCases(faObject, failCases, new FailCase());
     }
   }
 }

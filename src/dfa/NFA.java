@@ -19,19 +19,18 @@ public class NFA implements FiniteAutomata {
     Transitions transitions = tuple.getTransitions();
     State initialState = tuple.getInitialState();
     Set<State> finalStates = tuple.getFinalStates();
+    Set<State> allStates = tuple.getStates();
+
     if(finalStates.contains(initialState) && !isStringValid(inputString, alphabets)){
       return true;
     }
+    if(!allStates.contains(initialState)) return false;
     Set<State> nextStates = new HashSet<State>(){{add(initialState);}};
     for (String character : inputString) {
       nextStates = transitions.process(nextStates, character);
     }
-    for (State state : nextStates) {
-      if(finalStates.contains(state)){
-        return true;
-      }
-    }
-    return false;
+    nextStates.retainAll(finalStates);
+    return (nextStates.size() != 0) ;
   }
 
   private boolean isStringValid(List<String> inputString, List<String> alphabets) {

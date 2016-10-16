@@ -13,15 +13,6 @@ public class Builder {
     this.jsonObject = jsonObject;
   }
 
-//  {\"name\":\"any number of zeroes followed by any number of ones\",
-// \"type\":\"nfa\",\"tuple\":{\"states\":[\"q1\",\"q2\"],
-// \"alphabets\":[\"1\",\"0\"],
-// \"delta\":{\"q1\":{\"e\":[\"q2\"],\"0\":[\"q1\"]},\"q2\":{\"1\":[\"q2\"]}},
-// \"start-state\":\"q1\",
-// \"final-states\":[\"q2\"]},
-// \"pass-cases\":[\"\",\"0\",\"1\",\"00\",\"001\",\"0011\",\"0001\",\"011\",\"000111\"],
-// \"fail-cases\":[\"10\",\"1110\",\"010\",\"10101\",\"1101\"]}
-
   private Tuple mapToTuple(JSONObject tuple, Transitions allTransitions) {
     Set<State> states = ((List<String>) tuple.get("states")).stream().map(State::new).collect(Collectors.toSet());
     List<String> alphabets = (ArrayList<String>) tuple.get("alphabets");
@@ -62,11 +53,11 @@ public class Builder {
     if(type.equals("nfa")){
       allTransitions = mapToNFATransitions(transitions);
       Tuple tupleObject = mapToTuple(tuple, allTransitions);
-      return new NFA(tupleObject, name);
+      return new NFA(tupleObject, type + ":" + name);
     }
     allTransitions = mapToDFATransitions(transitions);
     Tuple tupleObject = mapToTuple(tuple, allTransitions);
-    return new DFA(tupleObject, name);
+    return new DFA(tupleObject, type + ":" + name);
   }
 
   public ArrayList<String> getPassCases() {

@@ -6,4 +6,5 @@ public interface FiniteAutomata {
   boolean verify(List<String> inputString);
 
   String getName();
+
 }

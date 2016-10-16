@@ -19,15 +19,17 @@ public class DFA implements FiniteAutomata {
     Transitions Transitions = tuple.getTransitions();
     State initialState = tuple.getInitialState();
     Set<State> finalStates = tuple.getFinalStates();
-    if(!isStringValid(inputString, alphabets)){
-      return false;
+    Set<State> allStates = tuple.getStates();
+    if(finalStates.contains(initialState) && !isStringValid(inputString, alphabets)){
+      return true;
     }
-    Set<State> nextState = new HashSet<State>(){{add(initialState);}};
+    if(!allStates.contains(initialState)) return false;
+    Set<State> nextStates = new HashSet<State>(){{add(initialState);}};
     for (String character : inputString) {
-      nextState = Transitions.process(nextState, character);
+      nextStates = Transitions.process(nextStates, character);
     }
-    for (State state : nextState) return finalStates.contains(state);
-    return false;
+    nextStates.retainAll(finalStates);
+    return (nextStates.size() != 0) ;
   }
 
   private boolean isStringValid(List<String> inputString, List<String> alphabets) {

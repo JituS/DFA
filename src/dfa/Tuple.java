@@ -60,4 +60,7 @@ public class Tuple {
     return result;
   }
 
+  public Set<State> getStates() {
+    return states;
+  }
 }
