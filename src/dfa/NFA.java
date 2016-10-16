@@ -4,11 +4,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class DFA implements FiniteAutomata {
+public class NFA implements FiniteAutomata {
   private Tuple tuple;
   private String name;
 
-  public DFA(Tuple tuple, String name) {
+  public NFA(Tuple tuple, String name) {
     this.tuple = tuple;
     this.name = name;
   }
@@ -16,17 +16,21 @@ public class DFA implements FiniteAutomata {
   @Override
   public boolean verify(List<String> inputString) {
     List<String> alphabets = tuple.getAlphabets();
-    Transitions Transitions = tuple.getTransitions();
+    Transitions transitions = tuple.getTransitions();
     State initialState = tuple.getInitialState();
     Set<State> finalStates = tuple.getFinalStates();
-    if(!isStringValid(inputString, alphabets)){
-      return false;
+    if(finalStates.contains(initialState) && !isStringValid(inputString, alphabets)){
+      return true;
     }
-    Set<State> nextState = new HashSet<State>(){{add(initialState);}};
+    Set<State> nextStates = new HashSet<State>(){{add(initialState);}};
     for (String character : inputString) {
-      nextState = Transitions.process(nextState, character);
+      nextStates = transitions.process(nextStates, character);
     }
-    for (State state : nextState) return finalStates.contains(state);
+    for (State state : nextStates) {
+      if(finalStates.contains(state)){
+        return true;
+      }
+    }
     return false;
   }
 
@@ -44,7 +48,7 @@ public class DFA implements FiniteAutomata {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
 
-    DFA dfa = (DFA) o;
+    NFA dfa = (NFA) o;
 
     return tuple != null ? tuple.equals(dfa.tuple) : dfa.tuple == null && (name != null ? name.equals(dfa.name) : dfa.name == null);
 

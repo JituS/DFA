@@ -31,14 +31,14 @@ public class JsonToFAParserTest {
 
   private DFA getExpectedLanguageObject() {
     State q1 = new State("q1");
-    Transitions transitions = new Transitions();
-    transitions.setTransition(q1, q1, "1");
-    transitions.setTransition(q1, q1, "0");
+    Transitions Transitions = new Transitions();
+    Transitions.setTransition(q1, q1, "1");
+    Transitions.setTransition(q1, q1, "0");
     Set<State> states = new HashSet<State>() {{add(q1);}};
     List<String> alphabets = new ArrayList<String>() {{add("1");}};
     Set<State> finalStates = new HashSet<State>() {{add(q1);}};
-    Tuple expectedTuple = new Tuple(states, alphabets, transitions, q1, finalStates);
+    Tuple expectedTuple = new Tuple(states, alphabets, Transitions, q1, finalStates);
 
-    return new DFA(expectedTuple, "odd number of zeroes", "dfa");
+    return new DFA(expectedTuple, "odd number of zeroes");
   }
 }

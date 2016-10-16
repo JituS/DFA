@@ -1,7 +1,7 @@
 package dfa;
 
 public class State {
-  private String stateName;
+   String stateName;
 
   public State(String stateName) {
     this.stateName = stateName;

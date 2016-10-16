@@ -28,20 +28,17 @@ public class TestRunner {
     }
   }
 
-  private static void testCases(FiniteAutomata dfa, ArrayList<String> cases, Cases passCase) {
+  private static void testCases(FiniteAutomata dfa, ArrayList<String> cases, Cases someCase) {
     for (String eachCase : cases) {
       ArrayList<String> eachCaseSplit = new ArrayList<>(Arrays.asList(eachCase.split("")));
-      boolean result = passCase.verify(dfa, eachCaseSplit);
+      boolean result = someCase.verify(dfa, eachCaseSplit);
       printStatus(eachCase, result);
     }
   }
 
   private static void printStatus(String passCase, boolean result) {
-    if(result){
-      System.out.println("\t" + passCase + " : Passed ");
-    }else {
-      System.out.println("\t" + passCase + " : Failed");
-    }
+    if(result)  System.out.println("\t" + passCase + " : Passed ");
+    else System.out.println("\t" + passCase + " : Failed");
   }
 
   public static void main(String[] args) throws ParseException, FileNotFoundException {

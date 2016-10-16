@@ -10,6 +10,7 @@ public class Tuple {
   private State initialState;
 
   private Set<State> finalStates;
+
   public Tuple(Set<State> states, List<String> alphabets, Transitions transitions, State initialState, Set<State> finalStates){
     this.states = states;
     this.alphabets = alphabets;
@@ -58,4 +59,5 @@ public class Tuple {
     result = 31 * result + (finalStates != null ? finalStates.hashCode() : 0);
     return result;
   }
+
 }

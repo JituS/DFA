@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 public class DFATest {
-  private Transitions transitions = new Transitions();
+  private Transitions Transitions = new Transitions();
   private State q1 = new State("q1");
   private State q2 = new State("q2");
   private State q3 = new State("q3");
@@ -21,7 +21,7 @@ public class DFATest {
 
   @Test
   public void shouldReturnTrueIfLanguageAcceptTheString() throws Exception {
-    transitions.setTransition(q1, q2, "0");
+    Transitions.setTransition(q1, q2, "0");
     Set<State> states = new HashSet<State>() {{
       add(q1);
       add(q2);
@@ -35,12 +35,12 @@ public class DFATest {
       add(q2);
     }};
 
-    Tuple tuple = new Tuple(states, alphabets, transitions, initialState, finalStates);
+    Tuple tuple = new Tuple(states, alphabets, Transitions, initialState, finalStates);
     ArrayList<String> inputString = new ArrayList<String>() {{
       add("0");
     }};
 
-    DFA dfa = new DFA(tuple, null, null);
+    DFA dfa = new DFA(tuple, null);
 
     boolean result = dfa.verify(inputString);
     Assert.assertTrue(result);
@@ -48,12 +48,12 @@ public class DFATest {
 
   @Test
   public void shouldReturnTrueIfLanguageAcceptTheStringContainsOneOnOddPlaces() throws Exception {
-    transitions.setTransition(q1, q2, "1");
-    transitions.setTransition(q1, q3, "0");
-    transitions.setTransition(q2, q1, "0");
-    transitions.setTransition(q2, q1, "1");
-    transitions.setTransition(q3, q3, "1");
-    transitions.setTransition(q3, q3, "0");
+    Transitions.setTransition(q1, q2, "1");
+    Transitions.setTransition(q1, q3, "0");
+    Transitions.setTransition(q2, q1, "0");
+    Transitions.setTransition(q2, q1, "1");
+    Transitions.setTransition(q3, q3, "1");
+    Transitions.setTransition(q3, q3, "0");
 
     Set<State> states = new HashSet<State>() {{
       add(q1);
@@ -69,14 +69,14 @@ public class DFATest {
       add(q1);
       add(q2);
     }};
-    Tuple tuple = new Tuple(states, alphabets, transitions, initialState, finalStates);
+    Tuple tuple = new Tuple(states, alphabets, Transitions, initialState, finalStates);
     ArrayList<String> inputString = new ArrayList<String>() {{
       add("1");
       add("0");
       add("1");
       add("0");
     }};
-    DFA dfa = new DFA(tuple, null, null);
+    DFA dfa = new DFA(tuple, null);
 
     boolean result = dfa.verify(inputString);
     Assert.assertTrue(result);
@@ -84,18 +84,18 @@ public class DFATest {
 
   @Test
   public void AllStringsThatBeginWithOneAndContainTheString001() throws Exception {
-    transitions.setTransition(q1, q2, "1");
-    transitions.setTransition(q1, q6, "0");
-    transitions.setTransition(q2, q2, "1");
-    transitions.setTransition(q2, q3, "0");
-    transitions.setTransition(q3, q2, "1");
-    transitions.setTransition(q3, q4, "0");
-    transitions.setTransition(q4, q4, "0");
-    transitions.setTransition(q4, q5, "1");
-    transitions.setTransition(q5, q5, "1");
-    transitions.setTransition(q5, q5, "0");
-    transitions.setTransition(q6, q6, "0");
-    transitions.setTransition(q6, q6, "1");
+    Transitions.setTransition(q1, q2, "1");
+    Transitions.setTransition(q1, q6, "0");
+    Transitions.setTransition(q2, q2, "1");
+    Transitions.setTransition(q2, q3, "0");
+    Transitions.setTransition(q3, q2, "1");
+    Transitions.setTransition(q3, q4, "0");
+    Transitions.setTransition(q4, q4, "0");
+    Transitions.setTransition(q4, q5, "1");
+    Transitions.setTransition(q5, q5, "1");
+    Transitions.setTransition(q5, q5, "0");
+    Transitions.setTransition(q6, q6, "0");
+    Transitions.setTransition(q6, q6, "1");
 
     Set<State> states = new HashSet<State>() {{
       add(q1);
@@ -113,7 +113,7 @@ public class DFATest {
     Set<State> finalStates = new HashSet<State>() {{
       add(q5);
     }};
-    Tuple tuple = new Tuple(states, alphabets, transitions, initialState, finalStates);
+    Tuple tuple = new Tuple(states, alphabets, Transitions, initialState, finalStates);
 
     ArrayList<String> inputString = new ArrayList<String>() {{
       add("1");
@@ -123,7 +123,7 @@ public class DFATest {
       add("0");
     }};
 
-    DFA dfa = new DFA(tuple, null, null);
+    DFA dfa = new DFA(tuple, null);
 
     boolean result = dfa.verify(inputString);
     Assert.assertTrue(result);
