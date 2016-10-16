@@ -24,29 +24,23 @@ public class Transitions {
 
   private void appendAllEStates(Set<State> allTransitStates, Set<State> eRelatedStates) {
     for (State transitState : allTransitStates) {
-      Map<String, Set<State>> transitions = this.transitions.get(transitState);
-      if(transitions != null){
-        Set<State> allEs = transitions.get(epsilon);
-        if(allEs != null){
-          eRelatedStates.addAll(allEs);
-          appendAllEStates(allEs, eRelatedStates);
-        }
-      }
+      try {
+        Set<State> allEs = transitions.get(transitState).get(epsilon);
+        eRelatedStates.addAll(allEs);
+        appendAllEStates(allEs, eRelatedStates);
+      }catch (Exception ignored){}
     }
   }
 
   private Set<State> processStates(Set<State> states, String alphabet, Set<State> transitStates) {
     for (State state : states) {
-      if(alphabet.equals("")) transitStates.add(state);
-      Map<String, Set<State>> possibleTransitions = this.transitions.get(state);
-      if(possibleTransitions != null) {
-        Set<State> transitions = possibleTransitions.get(alphabet);
-        if(transitions != null) transitStates.addAll(transitions);
-        Set<State> allEStates = possibleTransitions.get(epsilon);
-        if (allEStates != null){
-          processStates(allEStates, alphabet, transitStates);
-        }
-      }
+      if(alphabet.equals("")) {transitStates.add(state); return transitStates;}
+      try { transitStates.addAll(transitions.get(state).get(alphabet));}
+      catch (Exception ignored){}
+      try {
+        Set<State> epsilonLinked = transitions.get(state).get(epsilon);
+        processStates(epsilonLinked, alphabet, transitStates); }
+      catch (Exception ignored){}
     }
     return transitStates;
   }
