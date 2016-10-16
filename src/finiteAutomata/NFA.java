@@ -1,4 +1,8 @@
-package dfa;
+package finiteAutomata;
+
+import commons.State;
+import commons.Transitions;
+import commons.Tuple;
 
 import java.util.HashSet;
 import java.util.List;

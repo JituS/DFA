@@ -1,4 +1,4 @@
-package dfa;
+package commons;
 
 public class State {
    private String stateName;

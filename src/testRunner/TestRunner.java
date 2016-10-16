@@ -1,7 +1,7 @@
 package testRunner;
 
-import dfa.Builder;
-import dfa.FiniteAutomata;
+import commons.Builder;
+import finiteAutomata.FiniteAutomata;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -15,9 +15,8 @@ import java.util.Scanner;
 
 public class TestRunner {
 
-
-  private static JSONArray readJsonFile() throws FileNotFoundException, ParseException {
-    Scanner scanner = new Scanner(new File("data/examples1.json"));
+  private static JSONArray readJsonFile(File file) throws FileNotFoundException, ParseException {
+    Scanner scanner = new Scanner(file);
     StringBuilder jsonText = new StringBuilder();
     while(scanner.hasNextLine()){
       jsonText.append(scanner.nextLine());
@@ -30,13 +29,13 @@ public class TestRunner {
     for (String tCase : cases) {
       ArrayList<String> testCase = new ArrayList<>(Arrays.asList(tCase.split("")));
       boolean result = aCase.verify(dfa, testCase);
-      if(result)  System.out.println("\t" + testCase + " : Passed ");
-      else System.out.println("\t" + testCase + " : Failed");
+      if(result)  System.out.println("\t" + tCase + " : Passed ");
+      else System.out.println("\t" + tCase + " : Failed");
     }
   }
 
   public static void main(String[] args) throws ParseException, FileNotFoundException {
-    JSONArray FAJson = readJsonFile();
+    JSONArray FAJson = readJsonFile(new File("data/examples1.json"));
     for (Object fa : FAJson) {
       Builder builder = new Builder((JSONObject) fa);
       FiniteAutomata faObject = builder.buildFA();

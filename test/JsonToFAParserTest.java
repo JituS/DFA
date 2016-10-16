@@ -1,4 +1,5 @@
-import dfa.*;
+import commons.*;
+import finiteAutomata.*;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.junit.Assert;
@@ -13,7 +14,7 @@ public class JsonToFAParserTest {
   @Test
   public void shouldParseJsonAndReturnLanguageObject() throws Exception {
     String jsonString = "{\"name\":\"odd number of zeroes\"," +
-      "\"type\":\"dfa\"," +
+      "\"type\":\"finiteAutomata\"," +
       "\"tuple\":{\"states\":[\"q1\"]," +
       "\"alphabets\":[\"1\"]," +
       "\"delta\":{\"q1\":{\"0\":\"q1\",\"1\":\"q1\"}}," +

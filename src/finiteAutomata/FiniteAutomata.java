@@ -1,4 +1,4 @@
-package dfa;
+package finiteAutomata;
 
 import java.util.List;
 

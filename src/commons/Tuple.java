@@ -1,4 +1,4 @@
-package dfa;
+package commons;
 
 import java.util.List;
 import java.util.Set;
@@ -18,15 +18,15 @@ public class Tuple {
     this.finalStates = finalStates;
   }
 
-  Transitions getTransitions() {
+  public Transitions getTransitions() {
     return transitions;
   }
 
-  State getInitialState() {
+  public State getInitialState() {
     return initialState;
   }
 
-  Set<State> getFinalStates() {
+  public Set<State> getFinalStates() {
     return finalStates;
   }
 

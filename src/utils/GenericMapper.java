@@ -1,8 +1,8 @@
 package utils;
 
-import dfa.State;
-import dfa.Transitions;
-import dfa.Tuple;
+import commons.State;
+import commons.Transitions;
+import commons.Tuple;
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;

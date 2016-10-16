@@ -1,6 +1,6 @@
 package testRunner;
 
-import dfa.FiniteAutomata;
+import finiteAutomata.FiniteAutomata;
 
 import java.util.ArrayList;
 

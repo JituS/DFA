@@ -1,4 +1,4 @@
-package dfa;
+package commons;
 
 import java.util.*;
 

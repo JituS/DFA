@@ -1,5 +1,5 @@
-import dfa.State;
-import dfa.Transitions;
+import commons.State;
+import commons.Transitions;
 import org.junit.Assert;
 import org.junit.Test;
 

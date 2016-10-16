@@ -1,6 +1,6 @@
 .class
 *iml
-dfa.DFA.iml
+finiteAutomata.DFA.iml
 .idea
 out
 *.jar

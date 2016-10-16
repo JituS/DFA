@@ -1,5 +1,5 @@
-import dfa.Builder;
-import dfa.FiniteAutomata;
+import commons.Builder;
+import finiteAutomata.FiniteAutomata;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.junit.Assert;

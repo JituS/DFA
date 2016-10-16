@@ -1,4 +1,8 @@
-package dfa;
+package commons;
+
+import finiteAutomata.DFA;
+import finiteAutomata.FiniteAutomata;
+import finiteAutomata.NFA;
 import org.json.simple.JSONObject;
 
 import java.util.List;

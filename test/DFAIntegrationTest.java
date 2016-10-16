@@ -1,5 +1,5 @@
-import dfa.Builder;
-import dfa.FiniteAutomata;
+import commons.Builder;
+import finiteAutomata.FiniteAutomata;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.junit.Assert;
@@ -13,7 +13,7 @@ public class DFAIntegrationTest {
   @Test
   public void shouldReturnTrueIfStringIsAccepted() throws Exception {
     String jsonString = "{\"name\":\"odd number of zeroes\"," +
-      "\"type\":\"dfa\"," +
+      "\"type\":\"finiteAutomata\"," +
       "\"tuple\":{\"states\":[\"q1\",\"q2\"]," +
       "\"alphabets\":[\"1\",\"0\"]," +
       "\"delta\":{\"q1\":{\"0\":\"q2\",\"1\":\"q1\"},\"q2\":{\"0\":\"q1\",\"1\":\"q2\"}}," +

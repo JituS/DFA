@@ -1,7 +1,7 @@
-import dfa.DFA;
-import dfa.State;
-import dfa.Transitions;
-import dfa.Tuple;
+import finiteAutomata.DFA;
+import commons.State;
+import commons.Transitions;
+import commons.Tuple;
 import org.junit.Assert;
 import org.junit.Test;
 
