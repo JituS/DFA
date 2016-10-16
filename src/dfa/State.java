@@ -1,7 +1,7 @@
 package dfa;
 
 public class State {
-   String stateName;
+   private String stateName;
 
   public State(String stateName) {
     this.stateName = stateName;
@@ -11,11 +11,8 @@ public class State {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-
     State state = (State) o;
-
     return stateName != null ? stateName.equals(state.stateName) : state.stateName == null;
-
   }
 
   @Override

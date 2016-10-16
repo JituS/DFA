@@ -8,7 +8,6 @@ public class Tuple {
   private List<String> alphabets;
   private Transitions transitions;
   private State initialState;
-
   private Set<State> finalStates;
 
   public Tuple(Set<State> states, List<String> alphabets, Transitions transitions, State initialState, Set<State> finalStates){
@@ -17,10 +16,6 @@ public class Tuple {
     this.transitions = transitions;
     this.initialState = initialState;
     this.finalStates = finalStates;
-  }
-
-  List<String> getAlphabets() {
-    return alphabets;
   }
 
   Transitions getTransitions() {
@@ -60,7 +55,4 @@ public class Tuple {
     return result;
   }
 
-  public Set<State> getStates() {
-    return states;
-  }
 }

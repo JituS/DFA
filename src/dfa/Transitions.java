@@ -4,6 +4,7 @@ import java.util.*;
 
 public class Transitions {
 
+  private final String epsilon = "e";
   private Map<State, Map<String, Set<State>>> transitions = new HashMap<>();
 
   public void setTransition(State state1, State state2, String alphabet) {
@@ -13,19 +14,19 @@ public class Transitions {
   }
 
   public Set<State> process(Set<State> states, String alphabet) {
-    HashSet<State> transitStates = new HashSet<>();
-    states.stream().filter(state -> transitions.containsKey(state)).forEach(state -> processStates(states, alphabet, transitStates));
+    HashSet<State> allTransitStates = new HashSet<>();
+    states.stream().filter(state -> transitions.containsKey(state)).forEach(state -> processStates(states, alphabet, allTransitStates));
     Set<State> eRelatedStates = new HashSet<>();
-    appendAllEStates(transitStates, eRelatedStates);
-    transitStates.addAll(eRelatedStates);
-    return transitStates;
+    appendAllEStates(allTransitStates, eRelatedStates);
+    allTransitStates.addAll(eRelatedStates);
+    return allTransitStates;
   }
 
-  private void appendAllEStates(Set<State> transitStates, Set<State> eRelatedStates) {
-    for (State transitState : transitStates) {
-      Map<String, Set<State>> eStates = transitions.get(transitState);
-      if(eStates != null){
-        Set<State> allEs = eStates.get("e");
+  private void appendAllEStates(Set<State> allTransitStates, Set<State> eRelatedStates) {
+    for (State transitState : allTransitStates) {
+      Map<String, Set<State>> transitions = this.transitions.get(transitState);
+      if(transitions != null){
+        Set<State> allEs = transitions.get(epsilon);
         if(allEs != null){
           eRelatedStates.addAll(allEs);
           appendAllEStates(allEs, eRelatedStates);
@@ -41,7 +42,7 @@ public class Transitions {
       if(possibleTransitions != null) {
         Set<State> transitions = possibleTransitions.get(alphabet);
         if(transitions != null) transitStates.addAll(transitions);
-        Set<State> allEStates = possibleTransitions.get("e");
+        Set<State> allEStates = possibleTransitions.get(epsilon);
         if (allEStates != null){
           processStates(allEStates, alphabet, transitStates);
         }

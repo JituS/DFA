@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class DFAIntegrationTest {
   @Test
@@ -25,12 +26,12 @@ public class DFAIntegrationTest {
     Builder builder = new Builder(FAJson);
 
     FiniteAutomata finiteAutomata = builder.buildFA();
-    ArrayList<String> passCases = builder.getPassCases();
-    ArrayList<String> failCases = builder.getFailCases();
+    List<String> passCases = builder.getPassCases();
+    List<String> failCases = builder.getFailCases();
     testCases(finiteAutomata, passCases, failCases);
   }
 
-  private void testCases(FiniteAutomata dfa, ArrayList<String> passCases, ArrayList<String> failCases) {
+  private void testCases(FiniteAutomata dfa, List<String> passCases, List<String> failCases) {
     for (String passCase : passCases) {
       ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(passCase.split("")));
       Assert.assertTrue(dfa.verify(arrayList));
