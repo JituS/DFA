@@ -18,12 +18,12 @@ public class DFA implements FiniteAutomata {
 
   @Override
   public boolean verify(List<String> inputString) {
-    ITransition<State> Transitions = tuple.getTransitions();
+    ITransition<State> transitions = tuple.getTransitions();
     State initialState = tuple.getInitialState();
     Set<State> finalStates = tuple.getFinalStates();
     State nextState = initialState;
     for (String character : inputString) {
-      nextState = Transitions.process(nextState, character);
+      nextState = transitions.process(nextState, character);
     }
     return finalStates.contains(nextState);
   }
