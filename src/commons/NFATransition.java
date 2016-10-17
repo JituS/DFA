@@ -1,21 +1,27 @@
 package commons;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
-public class Transitions {
+public class NFATransition extends ITransition<Set<State>> {
 
   private final String epsilon = "e";
   private Map<State, Map<String, Set<State>>> transitions = new HashMap<>();
 
+  @Override
   public void setTransition(State state1, State state2, String alphabet) {
     transitions.putIfAbsent(state1, new HashMap<>());
     transitions.get(state1).putIfAbsent(alphabet, new HashSet<>());
     transitions.get((state1)).get(alphabet).add(state2);
   }
 
+  @Override
   public Set<State> process(Set<State> states, String alphabet) {
     HashSet<State> allTransitStates = new HashSet<>();
-    states.stream().filter(state -> transitions.containsKey(state)).forEach(state -> processStates(states, alphabet, allTransitStates, new State("")));
+    states.stream().filter(state -> transitions.containsKey(state)).forEach(state ->
+      processStates(states, alphabet, allTransitStates, new State("")));
     Set<State> eRelatedStates = new HashSet<>();
     appendAllEStates(allTransitStates, eRelatedStates);
     allTransitStates.addAll(eRelatedStates);
@@ -50,12 +56,15 @@ public class Transitions {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    Transitions that = (Transitions) o;
-    return transitions != null ? transitions.equals(that.transitions) : that.transitions == null;
+    NFATransition that = (NFATransition) o;
+    return epsilon.equals(that.epsilon) && (transitions != null ? transitions.equals(that.transitions) : that.transitions == null);
+
   }
 
   @Override
   public int hashCode() {
-    return transitions != null ? transitions.hashCode() : 0;
+    int result = epsilon.hashCode();
+    result = 31 * result + (transitions != null ? transitions.hashCode() : 0);
+    return result;
   }
 }

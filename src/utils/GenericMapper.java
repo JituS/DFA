@@ -1,8 +1,6 @@
 package utils;
 
-import commons.State;
-import commons.Transitions;
-import commons.Tuple;
+import commons.*;
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
@@ -21,8 +19,8 @@ public class GenericMapper {
     return mappedStrings;
   }
 
-  public static Transitions mapToDFATransitions(Map<String, Map<String, String>> transitions) {
-    Transitions mappedTransition = new Transitions();
+  public static ITransition<State> mapToDFATransitions(Map<String, Map<String, String>> transitions) {
+    ITransition<State> mappedTransition = new DFATransition();
     transitions.entrySet().stream().forEach(m -> {
       State state = new State(m.getKey());
       Map<String, String> transitionsOfState = m.getValue();
@@ -31,8 +29,8 @@ public class GenericMapper {
     return mappedTransition;
   }
 
-  public static Transitions mapToNFATransitions(Map<String, Map<String, ArrayList<String>>> transitions) {
-    Transitions mappedTransition = new Transitions();
+  public static ITransition<Set<State>> mapToNFATransitions(Map<String, Map<String, ArrayList<String>>> transitions) {
+    ITransition<Set<State>> mappedTransition = new NFATransition();
     transitions.entrySet().stream().forEach(m -> {
       State state = new State(m.getKey());
       Map<String, ArrayList<String>> transitionsOfState = m.getValue();
@@ -42,7 +40,7 @@ public class GenericMapper {
     return mappedTransition;
   }
 
-  public static Tuple mapToFATuple(JSONObject tuple, Transitions allTransitions) {
+  public static Tuple mapToFATuple(JSONObject tuple, ITransition allTransitions) {
     Set<State> states = mapObjectListToStringList(tuple.get("states")).stream().map(State::new).collect(Collectors.toSet());
     List<String> alphabets = mapObjectListToStringList(tuple.get("alphabets"));
     State initialState = new State((String) tuple.get("start-state"));

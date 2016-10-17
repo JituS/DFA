@@ -1,7 +1,7 @@
 package finiteAutomata;
 
+import commons.ITransition;
 import commons.State;
-import commons.Transitions;
 import commons.Tuple;
 
 import java.util.HashSet;
@@ -19,7 +19,7 @@ public class NFA implements FiniteAutomata {
 
   @Override
   public boolean verify(List<String> inputString) {
-    Transitions transitions = tuple.getTransitions();
+    ITransition<Set<State>> transitions = tuple.getTransitions();
     State initialState = tuple.getInitialState();
     Set<State> finalStates = tuple.getFinalStates();
     Set<State> nextStates = new HashSet<State>(){{add(initialState);}};

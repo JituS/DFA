@@ -1,10 +1,9 @@
 package finiteAutomata;
 
+import commons.ITransition;
 import commons.State;
-import commons.Transitions;
 import commons.Tuple;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -19,15 +18,14 @@ public class DFA implements FiniteAutomata {
 
   @Override
   public boolean verify(List<String> inputString) {
-    Transitions Transitions = tuple.getTransitions();
+    ITransition<State> Transitions = tuple.getTransitions();
     State initialState = tuple.getInitialState();
     Set<State> finalStates = tuple.getFinalStates();
-    Set<State> nextStates = new HashSet<State>(){{add(initialState);}};
+    State nextState = initialState;
     for (String character : inputString) {
-      nextStates = Transitions.process(nextStates, character);
+      nextState = Transitions.process(nextState, character);
     }
-    nextStates.retainAll(finalStates);
-    return (nextStates.size() != 0) ;
+    return finalStates.contains(nextState);
   }
 
   @Override
