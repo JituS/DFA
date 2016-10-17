@@ -15,7 +15,7 @@ public class Transitions {
 
   public Set<State> process(Set<State> states, String alphabet) {
     HashSet<State> allTransitStates = new HashSet<>();
-    states.stream().filter(state -> transitions.containsKey(state)).forEach(state -> processStates(states, alphabet, allTransitStates));
+    states.stream().filter(state -> transitions.containsKey(state)).forEach(state -> processStates(states, alphabet, allTransitStates, new State("")));
     Set<State> eRelatedStates = new HashSet<>();
     appendAllEStates(allTransitStates, eRelatedStates);
     allTransitStates.addAll(eRelatedStates);
@@ -32,14 +32,15 @@ public class Transitions {
     }
   }
 
-  private Set<State> processStates(Set<State> states, String alphabet, Set<State> transitStates) {
+  private Set<State> processStates(Set<State> states, String alphabet, Set<State> transitStates, State s) {
     for (State state : states) {
       if(alphabet.equals("")) {transitStates.add(state); return transitStates;}
       try { transitStates.addAll(transitions.get(state).get(alphabet));}
       catch (Exception ignored){}
       try {
         Set<State> epsilonLinked = transitions.get(state).get(epsilon);
-        processStates(epsilonLinked, alphabet, transitStates); }
+        epsilonLinked.remove(s);
+        processStates(epsilonLinked, alphabet, transitStates, state);}
       catch (Exception ignored){}
     }
     return transitStates;
