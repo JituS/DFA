@@ -19,7 +19,7 @@ public class GenericMapper {
     return mappedStrings;
   }
 
-  public static ITransition<State> mapToDFATransitions(Map<String, Map<String, String>> transitions) {
+  public static ITransition<State> getDFATransition(Map<String, Map<String, String>> transitions) {
     ITransition<State> mappedTransition = new DFATransition();
     transitions.entrySet().stream().forEach(m -> {
       State state = new State(m.getKey());
@@ -29,7 +29,7 @@ public class GenericMapper {
     return mappedTransition;
   }
 
-  public static ITransition<Set<State>> mapToNFATransitions(Map<String, Map<String, ArrayList<String>>> transitions) {
+  public static ITransition<Set<State>> getNFATransition(Map<String, Map<String, ArrayList<String>>> transitions) {
     ITransition<Set<State>> mappedTransition = new NFATransition();
     transitions.entrySet().stream().forEach(m -> {
       State state = new State(m.getKey());

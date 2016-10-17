@@ -25,10 +25,10 @@ public class TestRunner {
     return (JSONArray) new JSONParser().parse(stripedJson);
   }
 
-  private static void testCases(FiniteAutomata fa, List<String> cases, Case aCase) {
+  private static void runTestCases(FiniteAutomata finiteAutomata, List<String> cases, Case aCase) {
     for (String tCase : cases) {
       ArrayList<String> testCase = new ArrayList<>(Arrays.asList(tCase.split("")));
-      boolean result = aCase.verify(fa, testCase);
+      boolean result = aCase.verify(finiteAutomata, testCase);
       if(result)  System.out.println("\t" + tCase + " : Passed ");
       else System.out.println("\t" + tCase + " : Failed");
     }
@@ -38,13 +38,13 @@ public class TestRunner {
     JSONArray FAJson = readJsonFile(new File("data/examples1.json"));
     for (Object fa : FAJson) {
       Builder builder = new Builder((JSONObject) fa);
-      FiniteAutomata faObject = builder.buildFA();
+      FiniteAutomata finiteAutomata = builder.buildFA();
       List<String> passCases = builder.getPassCases();
       List<String> failCases = builder.getFailCases();
-      System.out.println("Passing Case For : " + faObject.getName());
-      testCases(faObject, passCases, new PassCase());
-      System.out.println("failing Case For : " + faObject.getName());
-      testCases(faObject, failCases, new FailCase());
+      System.out.println("Passing Case For : " + finiteAutomata.getName());
+      runTestCases(finiteAutomata, passCases, new PassCase());
+      System.out.println("failing Case For : " + finiteAutomata.getName());
+      runTestCases(finiteAutomata, failCases, new FailCase());
     }
   }
 

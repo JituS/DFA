@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 class PassCase implements Case {
   @Override
-  public boolean verify(FiniteAutomata dfa, ArrayList<String> eachCase) {
-    return dfa.verify(eachCase);
+  public boolean verify(FiniteAutomata finiteAutomata, ArrayList<String> eachCase) {
+    return finiteAutomata.verify(eachCase);
   }
 }

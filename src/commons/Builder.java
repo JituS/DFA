@@ -23,10 +23,10 @@ public class Builder {
     JSONObject tuple = (JSONObject) jsonObject.get("tuple");
     JSONObject transitions = (JSONObject) tuple.get("delta");
     if(type.equals("nfa")){
-      Tuple tupleObject = mapToFATuple(tuple, mapToNFATransitions(transitions));
+      Tuple tupleObject = mapToFATuple(tuple, getNFATransition(transitions));
       return new NFA(tupleObject,  type + ":" + name);
     }
-    Tuple tupleObject = mapToFATuple(tuple, mapToDFATransitions(transitions));
+    Tuple tupleObject = mapToFATuple(tuple, getDFATransition(transitions));
     return new DFA(tupleObject, type + ":" + name);
   }
 
