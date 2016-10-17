@@ -19,35 +19,41 @@ public class NFATransition extends ITransition<Set<State>> {
 
   @Override
   public Set<State> process(Set<State> states, String alphabet) {
-    HashSet<State> allTransitStates = new HashSet<>();
-    states.stream().filter(state -> transitions.containsKey(state)).forEach(state ->
-      processStates(states, alphabet, allTransitStates, new State("")));
-    Set<State> eRelatedStates = new HashSet<>();
-    appendAllEStates(allTransitStates, eRelatedStates);
-    allTransitStates.addAll(eRelatedStates);
-    return allTransitStates;
+    Set<State> states1 = processStates(states, alphabet, new State(""));
+    HashSet<State> allConnectedEs = getAllConnectedEs(states1);
+    states1.addAll(allConnectedEs);
+    return states1;
   }
 
-  private void appendAllEStates(Set<State> allTransitStates, Set<State> eRelatedStates) {
+  private HashSet<State> getAllConnectedEs(Set<State> allTransitStates) {
+    HashSet<State> states = new HashSet<>();
     for (State transitState : allTransitStates) {
       try {
         Set<State> allEs = transitions.get(transitState).get(epsilon);
-        eRelatedStates.addAll(allEs);
-        appendAllEStates(allEs, eRelatedStates);
-      }catch (Exception ignored){}
+        states = getAllConnectedEs(allEs);
+        states.addAll(allEs);
+      } catch (Exception ignored) {
+      }
     }
+    return states;
   }
 
-  private Set<State> processStates(Set<State> states, String alphabet, Set<State> transitStates, State s) {
+  private Set<State> processStates(Set<State> states, String alphabet, State previousState) {
+    Set<State> transitStates =  new HashSet<>();
     for (State state : states) {
-      if(alphabet.equals("")) {transitStates.add(state); return transitStates;}
-      try { transitStates.addAll(transitions.get(state).get(alphabet));}
-      catch (Exception ignored){}
+      if (alphabet.equals("")) {
+        transitStates.add(state);
+        return transitStates;
+      }
+      Map<String, Set<State>> connectedStates = transitions.get(state);
       try {
-        Set<State> epsilonLinked = transitions.get(state).get(epsilon);
-        epsilonLinked.remove(s);
-        processStates(epsilonLinked, alphabet, transitStates, state);}
-      catch (Exception ignored){}
+        transitStates.addAll(connectedStates.get(alphabet));
+      } catch (Exception ignored) {}
+      try {
+        Set<State> connectedEpsilon = connectedStates.get(epsilon);
+        connectedEpsilon.remove(previousState);
+        transitStates.addAll(processStates(connectedEpsilon, alphabet, state));
+      } catch (Exception ignored) {}
     }
     return transitStates;
   }
@@ -58,7 +64,6 @@ public class NFATransition extends ITransition<Set<State>> {
     if (o == null || getClass() != o.getClass()) return false;
     NFATransition that = (NFATransition) o;
     return epsilon.equals(that.epsilon) && (transitions != null ? transitions.equals(that.transitions) : that.transitions == null);
-
   }
 
   @Override

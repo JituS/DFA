@@ -34,15 +34,12 @@ public class Tuple {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-
     Tuple tuple = (Tuple) o;
-
     return states != null ? states.equals(tuple.states) : tuple.states == null && (alphabets != null
       ? alphabets.equals(tuple.alphabets) : tuple.alphabets == null && (transitions != null
       ? transitions.equals(tuple.transitions) : tuple.transitions == null && (initialState != null
       ? initialState.equals(tuple.initialState) : tuple.initialState == null && (finalStates != null
       ? finalStates.equals(tuple.finalStates) : tuple.finalStates == null))));
-
   }
 
   @Override
