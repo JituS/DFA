@@ -24,12 +24,14 @@ public class Builder implements IBuilder {
     String type = (String) jsonObject.get("type");
     JSONObject tuple = (JSONObject) jsonObject.get("tuple");
     JSONObject transitions = (JSONObject) tuple.get("delta");
+    String faName = name.toUpperCase();
+    String FAType = type.toUpperCase();
     if (type.equals("nfa")) {
       Tuple tupleObject = mapToFATuple(tuple, getNFATransition(transitions));
-      return new NFA(tupleObject, type + ":" + name);
+      return new NFA(tupleObject, FAType + " : " + faName);
     }
     Tuple tupleObject = mapToFATuple(tuple, getDFATransition(transitions));
-    return new DFA(tupleObject, type + ":" + name);
+    return new DFA(tupleObject, FAType + " : " + faName);
   }
 
   @Override

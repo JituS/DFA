@@ -20,17 +20,16 @@ public class NFATransition extends ITransition<Set<State>> {
   @Override
   public Set<State> process(Set<State> states, String alphabet) {
     Set<State> nextStates = processStates(states, alphabet, new State(""));
-    HashSet<State> allConnectedEs = getAllConnectedEs(nextStates);
-    nextStates.addAll(allConnectedEs);
+    nextStates.addAll(connectedEs(nextStates));
     return nextStates;
   }
 
-  private HashSet<State> getAllConnectedEs(Set<State> allTransitStates) {
+  private HashSet<State> connectedEs(Set<State> allTransitStates) {
     HashSet<State> states = new HashSet<>();
     for (State transitState : allTransitStates) {
       try {
         Set<State> allEs = transitions.get(transitState).get(epsilon);
-        states = getAllConnectedEs(allEs);
+        states = connectedEs(allEs);
         states.addAll(allEs);
       } catch (Exception ignored) {
       }
