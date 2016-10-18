@@ -1,11 +1,11 @@
 package finiteAutomata;
 
+import com.thoughtworks.testrunner.FiniteAutomata;
 import commons.ITransition;
 import commons.State;
 import commons.Tuple;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class NFA implements FiniteAutomata {
@@ -18,12 +18,13 @@ public class NFA implements FiniteAutomata {
   }
 
   @Override
-  public boolean verify(List<String> inputString) {
+  public boolean verify(String inputString) {
+    String[] split = inputString.split("");
     ITransition<Set<State>> transitions = tuple.getTransitions();
     State initialState = tuple.getInitialState();
     Set<State> finalStates = tuple.getFinalStates();
     Set<State> nextStates = new HashSet<State>(){{add(initialState);}};
-    for (String character : inputString) {
+    for (String character : split) {
       nextStates = transitions.process(nextStates, character);
     }
     nextStates.retainAll(finalStates);

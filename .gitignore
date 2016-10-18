@@ -4,3 +4,4 @@ finiteAutomata.DFA.iml
 .idea
 out
 *.jar
+target

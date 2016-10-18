@@ -1,12 +1,10 @@
+import com.thoughtworks.testrunner.FiniteAutomata;
 import commons.Builder;
-import finiteAutomata.FiniteAutomata;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class DFAIntegrationTest {
@@ -33,12 +31,10 @@ public class DFAIntegrationTest {
 
   private void testCases(FiniteAutomata dfa, List<String> passCases, List<String> failCases) {
     for (String passCase : passCases) {
-      ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(passCase.split("")));
-      Assert.assertTrue(dfa.verify(arrayList));
+      Assert.assertTrue(dfa.verify(passCase));
     }
     for (String failCase : failCases) {
-      ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(failCase.split("")));
-      Assert.assertFalse(dfa.verify(arrayList));
+      Assert.assertFalse(dfa.verify(failCase));
     }
   }
 }

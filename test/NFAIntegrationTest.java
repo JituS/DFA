@@ -1,12 +1,10 @@
+import com.thoughtworks.testrunner.FiniteAutomata;
 import commons.Builder;
-import finiteAutomata.FiniteAutomata;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class NFAIntegrationTest {
@@ -25,12 +23,10 @@ public class NFAIntegrationTest {
 
   private void testCases(FiniteAutomata nfa, List<String> passCases, List<String> failCases) {
     for (String passCase : passCases) {
-      ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(passCase.split("")));
-      Assert.assertTrue(nfa.verify(arrayList));
+      Assert.assertTrue(nfa.verify(passCase));
     }
     for (String failCase : failCases) {
-      ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(failCase.split("")));
-      boolean verify = nfa.verify(arrayList);
+      boolean verify = nfa.verify(failCase);
       Assert.assertFalse(verify);
     }
   }

@@ -1,5 +1,6 @@
+import com.thoughtworks.testrunner.FiniteAutomata;
 import commons.*;
-import finiteAutomata.*;
+import finiteAutomata.DFA;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.junit.Assert;

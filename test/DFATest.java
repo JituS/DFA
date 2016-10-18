@@ -37,13 +37,10 @@ public class DFATest {
     }};
 
     Tuple tuple = new Tuple(states, alphabets, transitions, initialState, finalStates);
-    ArrayList<String> inputString = new ArrayList<String>() {{
-      add("0");
-    }};
 
     DFA dfa = new DFA(tuple, null);
 
-    boolean result = dfa.verify(inputString);
+    boolean result = dfa.verify("0");
     Assert.assertTrue(result);
   }
 
@@ -71,15 +68,9 @@ public class DFATest {
       add(q2);
     }};
     Tuple tuple = new Tuple(states, alphabets, transitions, initialState, finalStates);
-    ArrayList<String> inputString = new ArrayList<String>() {{
-      add("1");
-      add("0");
-      add("1");
-      add("0");
-    }};
     DFA dfa = new DFA(tuple, null);
 
-    boolean result = dfa.verify(inputString);
+    boolean result = dfa.verify("1010");
     Assert.assertTrue(result);
   }
 
@@ -116,17 +107,9 @@ public class DFATest {
     }};
     Tuple tuple = new Tuple(states, alphabets, transitions, initialState, finalStates);
 
-    ArrayList<String> inputString = new ArrayList<String>() {{
-      add("1");
-      add("0");
-      add("0");
-      add("1");
-      add("0");
-    }};
-
     DFA dfa = new DFA(tuple, null);
 
-    boolean result = dfa.verify(inputString);
+    boolean result = dfa.verify("10010");
     Assert.assertTrue(result);
   }
 

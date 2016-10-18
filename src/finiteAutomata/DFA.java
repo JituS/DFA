@@ -1,10 +1,10 @@
 package finiteAutomata;
 
+import com.thoughtworks.testrunner.*;
 import commons.ITransition;
 import commons.State;
 import commons.Tuple;
 
-import java.util.List;
 import java.util.Set;
 
 public class DFA implements FiniteAutomata {
@@ -17,12 +17,13 @@ public class DFA implements FiniteAutomata {
   }
 
   @Override
-  public boolean verify(List<String> inputString) {
+  public boolean verify(String inputString) {
+    String[] split = inputString.split("");
     ITransition<State> transitions = tuple.getTransitions();
     State initialState = tuple.getInitialState();
     Set<State> finalStates = tuple.getFinalStates();
     State nextState = initialState;
-    for (String character : inputString) {
+    for (String character : split) {
       nextState = transitions.process(nextState, character);
     }
     return finalStates.contains(nextState);
