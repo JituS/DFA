@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class MainClass {
   public static void main(String[] args) throws FileNotFoundException, ParseException {
-    ArrayList<JSONObject> jsonObjects = TestRunner.readJsonFile(new File("data/examples1.json"));
+    ArrayList<JSONObject> jsonObjects = TestRunner.readJsonFile(new File("data/examples.json"));
     for (JSONObject jsonObject : jsonObjects) {
       Builder builder = new Builder(jsonObject);
       TestRunner testRunner = new TestRunner(builder);
