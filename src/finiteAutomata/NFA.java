@@ -6,7 +6,6 @@ import commons.ITransition;
 import commons.State;
 import commons.Tuple;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,7 +27,7 @@ public class NFA implements FiniteAutomata {
       add(tuple.getInitialState());
     }};
     for (String character : split) {
-      nextStates = transitions.process(nextStates, character);
+        nextStates = transitions.process(nextStates, character);
     }
     nextStates.retainAll(finalStates);
     return (nextStates.size() != 0);
@@ -55,26 +54,26 @@ public class NFA implements FiniteAutomata {
   }
 
   public DFA toDFA() {
-    State initialState = tuple.getInitialState();
-    Set<State> initialStates = (Set<State>) tuple.getTransitions().process(new HashSet<State>(){{add(initialState);}}, "");
+    ITransition<Set<State>> transitions = tuple.getTransitions();
+    Set<State> initialStates = transitions.process(new HashSet<State>(){{add(tuple.getInitialState());}}, "");
+    HashSet<State> dfaFinalStates = new HashSet<>();
+    if(isFinalState(initialStates)) {
+      dfaFinalStates.add(createStateName(initialStates));
+    }
     Tuple dfaTuple = new Tuple(new HashSet<State>() {{
       add(createStateName(initialStates));
-    }}, new ArrayList<>(), new DFATransition(), createStateName(initialStates), new HashSet<>());
+    }}, tuple.getAlphabets(), new DFATransition(), createStateName(initialStates), dfaFinalStates);
 
-    if(isFinalState(initialStates)) {
-      dfaTuple.getFinalStates().add(createStateName(initialStates));
-    }
-    HashSet<Set<State>> startingStates = new HashSet<>();
-    startingStates.add(initialStates);
-    populateDFATuple(startingStates, dfaTuple);
+    populateDFATuple(new HashSet<Set<State>>(){{add(initialStates);}}, dfaTuple);
     return new DFA(dfaTuple, name);
   }
 
   private Tuple populateDFATuple(HashSet<Set<State>> currentStates, Tuple dfaTuple) {
-    HashSet<Set<State>> allNextStates = new HashSet<>();
+    HashSet<Set<State>> nextStates = new HashSet<>();
     for (String alphabet : tuple.getAlphabets()) {
       for (Set<State> currentState : currentStates) {
-        Set<State> nextState = ((ITransition<Set<State>>) tuple.getTransitions()).process(currentState, alphabet);
+        ITransition<Set<State>> transitions = tuple.getTransitions();
+        Set<State> nextState = transitions.process(currentState, alphabet);
         if (nextState.size() == 0) continue;
         State nextStateName = createStateName(nextState);
         ITransition<State> dfaTransitions = dfaTuple.getTransitions();
@@ -82,14 +81,13 @@ public class NFA implements FiniteAutomata {
         if(isFinalState(nextState)) {
           dfaTuple.getFinalStates().add(nextStateName);
         }
-        Set<State> dfaStates = dfaTuple.getStates();
-        if(!dfaStates.contains(nextStateName)){
-          allNextStates.add(nextState);
-          dfaStates.add(nextStateName);
+        if(!dfaTuple.getStates().contains(nextStateName)){
+          nextStates.add(nextState);
+          dfaTuple.getStates().add(nextStateName);
         }
       }
     }
-    return (allNextStates.size() == 0) ? dfaTuple : populateDFATuple(allNextStates, dfaTuple);
+    return (nextStates.size() == 0) ? dfaTuple : populateDFATuple(nextStates, dfaTuple);
   }
 
   private boolean isFinalState(Set<State> nextState) {
