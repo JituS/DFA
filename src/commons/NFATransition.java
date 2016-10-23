@@ -39,12 +39,9 @@ public class NFATransition extends ITransition<Set<State>> {
   }
 
   private Set<State> processStates(Set<State> states, String alphabet) {
+    if (alphabet.equals("")) return states;
     Set<State> transitStates =  new HashSet<>();
     for (State state : states) {
-      if (alphabet.equals("")) {
-        transitStates.add(state);
-        return transitStates;
-      }
       Map<String, Set<State>> connectedStates = transitions.get(state);
       try {
         transitStates.addAll(connectedStates.get(alphabet));

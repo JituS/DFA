@@ -38,21 +38,6 @@ public class NFA implements FiniteAutomata {
     return name;
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    NFA dfa = (NFA) o;
-    return tuple != null ? tuple.equals(dfa.tuple) : dfa.tuple == null && (name != null ? name.equals(dfa.name) : dfa.name == null);
-  }
-
-  @Override
-  public int hashCode() {
-    int result = tuple != null ? tuple.hashCode() : 0;
-    result = 31 * result + (name != null ? name.hashCode() : 0);
-    return result;
-  }
-
   public DFA toDFA() {
     ITransition<Set<State>> transitions = tuple.getTransitions();
     Set<State> initialStates = transitions.process(new HashSet<State>(){{add(tuple.getInitialState());}}, "");
@@ -104,5 +89,22 @@ public class NFA implements FiniteAutomata {
     }
     return new State(stringBuilder.toString());
   }
+
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    NFA dfa = (NFA) o;
+    return tuple != null ? tuple.equals(dfa.tuple) : dfa.tuple == null && (name != null ? name.equals(dfa.name) : dfa.name == null);
+  }
+
+  @Override
+  public int hashCode() {
+    int result = tuple != null ? tuple.hashCode() : 0;
+    result = 31 * result + (name != null ? name.hashCode() : 0);
+    return result;
+  }
+
 
 }
