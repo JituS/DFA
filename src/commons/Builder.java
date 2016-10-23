@@ -15,6 +15,7 @@ public class Builder implements IBuilder {
   private JSONObject jsonObject;
 
   public Builder(JSONObject jsonObject) {
+
     this.jsonObject = jsonObject;
   }
 
@@ -29,6 +30,10 @@ public class Builder implements IBuilder {
     if (type.equals("nfa")) {
       Tuple tupleObject = mapToFATuple(tuple, getNFATransition(transitions));
       return new NFA(tupleObject, FAType + " : " + faName);
+    }
+    if (type.equals("nfa-to-dfa")) {
+      Tuple tupleObject = mapToFATuple(tuple, getNFATransition(transitions));
+      return new NFA(tupleObject, FAType + " : " + faName).toDFA();
     }
     Tuple tupleObject = mapToFATuple(tuple, getDFATransition(transitions));
     return new DFA(tupleObject, FAType + " : " + faName);

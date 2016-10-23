@@ -5,10 +5,19 @@ import java.util.Set;
 
 public class Tuple {
   private Set<State> states;
+
+  public List<String> getAlphabets() {
+    return alphabets;
+  }
+
   private List<String> alphabets;
   private ITransition transitions;
   private State initialState;
   private Set<State> finalStates;
+
+  public Set<State> getStates() {
+    return states;
+  }
 
   public Tuple(Set<State> states, List<String> alphabets, ITransition transitions, State initialState, Set<State> finalStates){
     this.states = states;

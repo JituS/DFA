@@ -26,8 +26,7 @@ public class NFAIntegrationTest {
       Assert.assertTrue(nfa.verify(passCase));
     }
     for (String failCase : failCases) {
-      boolean verify = nfa.verify(failCase);
-      Assert.assertFalse(verify);
+      Assert.assertFalse(nfa.verify(failCase));
     }
   }
 }

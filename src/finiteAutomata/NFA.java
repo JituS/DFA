@@ -1,10 +1,12 @@
 package finiteAutomata;
 
 import com.thoughtworks.testrunner.FiniteAutomata;
+import commons.DFATransition;
 import commons.ITransition;
 import commons.State;
 import commons.Tuple;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,14 +23,15 @@ public class NFA implements FiniteAutomata {
   public boolean verify(String inputString) {
     String[] split = inputString.split("");
     ITransition<Set<State>> transitions = tuple.getTransitions();
-    State initialState = tuple.getInitialState();
     Set<State> finalStates = tuple.getFinalStates();
-    Set<State> nextStates = new HashSet<State>(){{add(initialState);}};
+    Set<State> nextStates = new HashSet<State>() {{
+      add(tuple.getInitialState());
+    }};
     for (String character : split) {
       nextStates = transitions.process(nextStates, character);
     }
     nextStates.retainAll(finalStates);
-    return (nextStates.size() != 0) ;
+    return (nextStates.size() != 0);
   }
 
   @Override
@@ -50,4 +53,55 @@ public class NFA implements FiniteAutomata {
     result = 31 * result + (name != null ? name.hashCode() : 0);
     return result;
   }
+
+  public DFA toDFA() {
+    State initialState = tuple.getInitialState();
+    HashSet<State> states = new HashSet<State>() {{
+      add(initialState);
+    }};
+    Tuple dfaTuple = new Tuple(states, new ArrayList<>(), new DFATransition(), initialState, new HashSet<>());
+
+    HashSet<Set<State>> startingStates = new HashSet<>();
+    startingStates.add(states);
+    populateDFATuple(startingStates, dfaTuple);
+    return new DFA(dfaTuple, name);
+  }
+
+  private Tuple populateDFATuple(HashSet<Set<State>> currentStates, Tuple dfaTuple) {
+    HashSet<Set<State>> allNextStates = new HashSet<>();
+    for (String alphabet : tuple.getAlphabets()) {
+      for (Set<State> currentState : currentStates) {
+        Set<State> nextState = ((ITransition<Set<State>>) tuple.getTransitions()).process(currentState, alphabet);
+        if (nextState.size() == 0) continue;
+        State nextStateName = createStateName(nextState);
+        ITransition<State> dfaTransitions = dfaTuple.getTransitions();
+        dfaTransitions.setTransition(createStateName(currentState), nextStateName, alphabet);
+        if(isFinalState(nextState)) {
+          dfaTuple.getFinalStates().add(nextStateName);
+        }
+        Set<State> dfaStates = dfaTuple.getStates();
+        if(!dfaStates.contains(nextStateName)){
+          allNextStates.add(nextState);
+        }
+        dfaStates.add(nextStateName);
+      }
+    }
+    return (allNextStates.size() == 0) ? dfaTuple : populateDFATuple(allNextStates, dfaTuple);
+  }
+
+  private boolean isFinalState(Set<State> nextState) {
+    for (State nState : nextState) {
+      if (tuple.getFinalStates().contains(nState)) return true;
+    }
+    return false;
+  }
+
+  private State createStateName(Set<State> NStates) {
+    StringBuilder stringBuilder = new StringBuilder();
+    for (State nState : NStates) {
+      stringBuilder.append(nState.stateName);
+    }
+    return new State(stringBuilder.toString());
+  }
+
 }
