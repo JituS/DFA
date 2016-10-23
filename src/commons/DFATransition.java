@@ -6,6 +6,7 @@ public class DFATransition extends ITransition<State> {
 
   @Override
   public State process(State state, String alphabet) {
+    if(alphabet.equals("")) return state;
     State nextState = null;
     try { nextState = transitions.get(state).get(alphabet); }
     catch (Exception ignored){}

@@ -19,25 +19,27 @@ public class NFATransition extends ITransition<Set<State>> {
 
   @Override
   public Set<State> process(Set<State> states, String alphabet) {
-    Set<State> nextStates = processStates(states, alphabet, new State(""));
-    nextStates.addAll(getAllConnectedEs(nextStates));
+    Set<State> nextStates = processStates(states, alphabet);
+    HashSet<State> allEs = new HashSet<>();
+
+    populateAllConnectedEs(nextStates,  new State(""), allEs);
+    nextStates.addAll(allEs);
     return nextStates;
   }
 
-  private HashSet<State> getAllConnectedEs(Set<State> allTransitStates) {
-    HashSet<State> states = new HashSet<>();
+  private void populateAllConnectedEs(Set<State> allTransitStates, State state, HashSet<State> allConnectedEs) {
     for (State transitState : allTransitStates) {
       try {
         Set<State> allEs = transitions.get(transitState).get(epsilon);
-        states = getAllConnectedEs(allEs);
-        states.addAll(allEs);
+        allEs.remove(state);
+        populateAllConnectedEs(allEs, transitState, allConnectedEs);
+        allConnectedEs.addAll(allEs);
       } catch (Exception ignored) {
       }
     }
-    return states;
   }
 
-  private Set<State> processStates(Set<State> states, String alphabet, State previousState) {
+  private Set<State> processStates(Set<State> states, String alphabet) {
     Set<State> transitStates =  new HashSet<>();
     for (State state : states) {
       if (alphabet.equals("")) {
@@ -48,12 +50,14 @@ public class NFATransition extends ITransition<Set<State>> {
       try {
         transitStates.addAll(connectedStates.get(alphabet));
       } catch (Exception ignored) {}
-      try {
-        Set<State> connectedEpsilon = connectedStates.get(epsilon);
-        connectedEpsilon.remove(previousState);
-        transitStates.addAll(processStates(connectedEpsilon, alphabet, state));
-      } catch (Exception ignored) {}
     }
+    try {
+      if(states.size() != 0) {
+        HashSet<State> allConnectedEs = new HashSet<>();
+        populateAllConnectedEs(states, new State(""), allConnectedEs);
+        transitStates.addAll(processStates(allConnectedEs, alphabet));
+      }
+    } catch (Exception ignored) {}
     return transitStates;
   }
 

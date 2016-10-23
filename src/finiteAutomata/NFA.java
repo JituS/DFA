@@ -56,13 +56,16 @@ public class NFA implements FiniteAutomata {
 
   public DFA toDFA() {
     State initialState = tuple.getInitialState();
-    HashSet<State> states = new HashSet<State>() {{
-      add(initialState);
-    }};
-    Tuple dfaTuple = new Tuple(states, new ArrayList<>(), new DFATransition(), initialState, new HashSet<>());
+    Set<State> initialStates = (Set<State>) tuple.getTransitions().process(new HashSet<State>(){{add(initialState);}}, "");
+    Tuple dfaTuple = new Tuple(new HashSet<State>() {{
+      add(createStateName(initialStates));
+    }}, new ArrayList<>(), new DFATransition(), createStateName(initialStates), new HashSet<>());
 
+    if(isFinalState(initialStates)) {
+      dfaTuple.getFinalStates().add(createStateName(initialStates));
+    }
     HashSet<Set<State>> startingStates = new HashSet<>();
-    startingStates.add(states);
+    startingStates.add(initialStates);
     populateDFATuple(startingStates, dfaTuple);
     return new DFA(dfaTuple, name);
   }
@@ -82,8 +85,8 @@ public class NFA implements FiniteAutomata {
         Set<State> dfaStates = dfaTuple.getStates();
         if(!dfaStates.contains(nextStateName)){
           allNextStates.add(nextState);
+          dfaStates.add(nextStateName);
         }
-        dfaStates.add(nextStateName);
       }
     }
     return (allNextStates.size() == 0) ? dfaTuple : populateDFATuple(allNextStates, dfaTuple);
