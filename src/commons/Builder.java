@@ -26,17 +26,17 @@ public class Builder implements IBuilder {
     JSONObject tuple = (JSONObject) jsonObject.get("tuple");
     JSONObject transitions = (JSONObject) tuple.get("delta");
     String faName = name.toUpperCase();
-    String FAType = type.toUpperCase();
+    String faType = type.toUpperCase();
     if (type.equals("nfa")) {
       Tuple tupleObject = mapToFATuple(tuple, getNFATransition(transitions));
-      return new NFA(tupleObject, FAType + " : " + faName);
+      return new NFA(tupleObject, faType + " : " + faName);
     }
     if (type.equals("nfa-to-dfa")) {
       Tuple tupleObject = mapToFATuple(tuple, getNFATransition(transitions));
-      return new NFA(tupleObject, FAType + " : " + faName).toDFA();
+      return new NFA(tupleObject, faType + " : " + faName).toDFA();
     }
     Tuple tupleObject = mapToFATuple(tuple, getDFATransition(transitions));
-    return new DFA(tupleObject, FAType + " : " + faName);
+    return new DFA(tupleObject, faType + " : " + faName);
   }
 
   @Override
