@@ -21,7 +21,6 @@ public class NFATransition extends ITransition<Set<State>> {
   public Set<State> process(Set<State> states, String alphabet) {
     Set<State> nextStates = processStates(states, alphabet);
     HashSet<State> allEs = new HashSet<>();
-
     populateAllConnectedEs(nextStates,  new State(""), allEs);
     nextStates.addAll(allEs);
     return nextStates;
