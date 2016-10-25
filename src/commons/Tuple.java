@@ -1,25 +1,23 @@
 package commons;
 
 import java.util.List;
-import java.util.Set;
 
 public class Tuple {
-  private Set<State> states;
+  private States states;
+  private List<String> alphabets;
+  private ITransition transitions;
+  private State initialState;
+  private States finalStates;
 
   public List<String> getAlphabets() {
     return alphabets;
   }
 
-  private List<String> alphabets;
-  private ITransition transitions;
-  private State initialState;
-  private Set<State> finalStates;
-
-  public Set<State> getStates() {
+  public States getStates() {
     return states;
   }
 
-  public Tuple(Set<State> states, List<String> alphabets, ITransition transitions, State initialState, Set<State> finalStates){
+  public Tuple(States states, List<String> alphabets, ITransition transitions, State initialState, States finalStates){
     this.states = states;
     this.alphabets = alphabets;
     this.transitions = transitions;
@@ -35,7 +33,7 @@ public class Tuple {
     return initialState;
   }
 
-  public Set<State> getFinalStates() {
+  public States getFinalStates() {
     return finalStates;
   }
 
@@ -43,12 +41,16 @@ public class Tuple {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
+
     Tuple tuple = (Tuple) o;
-    return states != null ? states.equals(tuple.states) : tuple.states == null && (alphabets != null
+
+    return states != null
+      ? states.equals(tuple.states) : tuple.states == null && (alphabets != null
       ? alphabets.equals(tuple.alphabets) : tuple.alphabets == null && (transitions != null
       ? transitions.equals(tuple.transitions) : tuple.transitions == null && (initialState != null
       ? initialState.equals(tuple.initialState) : tuple.initialState == null && (finalStates != null
       ? finalStates.equals(tuple.finalStates) : tuple.finalStates == null))));
+
   }
 
   @Override
@@ -60,5 +62,4 @@ public class Tuple {
     result = 31 * result + (finalStates != null ? finalStates.hashCode() : 0);
     return result;
   }
-
 }

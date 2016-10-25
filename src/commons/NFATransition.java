@@ -1,36 +1,35 @@
 package commons;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-public class NFATransition extends ITransition<Set<State>> {
+public class NFATransition extends ITransition<States> {
 
   private final String epsilon = "e";
-  private Map<State, Map<String, Set<State>>> transitions = new HashMap<>();
+  private Map<State, Map<String, States>> transitions = new HashMap<>();
 
   @Override
   public void setTransition(State state1, State state2, String alphabet) {
     transitions.putIfAbsent(state1, new HashMap<>());
-    transitions.get(state1).putIfAbsent(alphabet, new HashSet<>());
+    transitions.get(state1).putIfAbsent(alphabet, new States());
     transitions.get((state1)).get(alphabet).add(state2);
   }
 
   @Override
-  public Set<State> process(Set<State> states, String alphabet) {
-    Set<State> nextStates = processStates(states, alphabet);
-    HashSet<State> allEs = new HashSet<>();
-    populateAllConnectedEs(nextStates, new State(""), allEs);
-    nextStates.addAll(allEs);
+  public States process(States states, String alphabet) {
+    States nextStates = processStates(states, alphabet);
+    States connectedEpsilon = new States();
+    populateAllConnectedEs(nextStates, new State(""), connectedEpsilon);
+    nextStates.addAll(connectedEpsilon);
     return nextStates;
   }
 
-  private void populateAllConnectedEs(Set<State> allTransitStates, State state, HashSet<State> allConnectedEs) {
-    for (State transitState : allTransitStates) {
+  private void populateAllConnectedEs(States allTransitStates, State previousState, States allConnectedEs) {
+    Iterator<State> stateIterator = allTransitStates.iterator();
+    while (stateIterator.hasNext()) {
+      State transitState = stateIterator.next();
       try {
-        Set<State> allEs = transitions.get(transitState).get(epsilon);
-        allEs.remove(state);
+        States allEs = transitions.get(transitState).get(epsilon);
+        allEs.remove(previousState);
         populateAllConnectedEs(allEs, transitState, allConnectedEs);
         allConnectedEs.addAll(allEs);
       } catch (Exception ignored) {
@@ -38,22 +37,26 @@ public class NFATransition extends ITransition<Set<State>> {
     }
   }
 
-  private Set<State> processStates(Set<State> states, String alphabet) {
+  private States processStates(States states, String alphabet) {
     if (alphabet.equals("")) return states;
-    Set<State> transitStates =  new HashSet<>();
-    for (State state : states) {
-      Map<String, Set<State>> connectedStates = transitions.get(state);
+    States transitStates = new States();
+    Iterator<State> stateIterator = states.iterator();
+    while (stateIterator.hasNext()) {
+      State state = stateIterator.next();
+      Map<String, States> connectedStates = transitions.get(state);
       try {
         transitStates.addAll(connectedStates.get(alphabet));
-      } catch (Exception ignored) {}
+      } catch (Exception ignored) {
+      }
     }
     try {
-      if(!states.isEmpty()) {
-        HashSet<State> allConnectedEs = new HashSet<>();
+      if (!states.isEmpty()) {
+        States allConnectedEs = new States();
         populateAllConnectedEs(states, new State(""), allConnectedEs);
         transitStates.addAll(processStates(allConnectedEs, alphabet));
       }
-    } catch (Exception ignored) {}
+    } catch (Exception ignored) {
+    }
     return transitStates;
   }
 

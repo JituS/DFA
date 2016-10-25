@@ -23,20 +23,24 @@ public class Builder implements IBuilder {
   public FiniteAutomata buildFA() {
     String name = (String) jsonObject.get("name");
     String type = (String) jsonObject.get("type");
+
+    String faName = name.toUpperCase() + " : "+ type.toUpperCase();
     JSONObject tuple = (JSONObject) jsonObject.get("tuple");
     JSONObject transitions = (JSONObject) tuple.get("delta");
-    String faName = name.toUpperCase();
-    String faType = type.toUpperCase();
-    if (type.equals("nfa")) {
-      Tuple tupleObject = mapToFATuple(tuple, getNFATransition(transitions));
-      return new NFA(tupleObject, faType + " : " + faName);
+
+    Tuple mappedTuple;
+
+    switch (type) {
+      case "nfa":
+        mappedTuple = mapToFATuple(tuple, getNFATransition(transitions));
+        return new NFA(mappedTuple, faName);
+      case "nfa-to-dfa":
+        mappedTuple = mapToFATuple(tuple, getNFATransition(transitions));
+        return new NFA(mappedTuple, faName).toDFA();
+      default:
+        mappedTuple = mapToFATuple(tuple, getDFATransition(transitions));
+        return new DFA(mappedTuple, faName);
     }
-    if (type.equals("nfa-to-dfa")) {
-      Tuple tupleObject = mapToFATuple(tuple, getNFATransition(transitions));
-      return new NFA(tupleObject, faType + " : " + faName).toDFA();
-    }
-    Tuple tupleObject = mapToFATuple(tuple, getDFATransition(transitions));
-    return new DFA(tupleObject, faType + " : " + faName);
   }
 
   @Override

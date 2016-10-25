@@ -1,11 +1,10 @@
 package finiteAutomata;
 
-import com.thoughtworks.testrunner.*;
+import com.thoughtworks.testrunner.FiniteAutomata;
 import commons.ITransition;
 import commons.State;
+import commons.States;
 import commons.Tuple;
-
-import java.util.Set;
 
 public class DFA implements FiniteAutomata {
   private Tuple tuple;
@@ -21,7 +20,7 @@ public class DFA implements FiniteAutomata {
     String[] split = inputString.split("");
     ITransition<State> transitions = tuple.getTransitions();
     State initialState = tuple.getInitialState();
-    Set<State> finalStates = tuple.getFinalStates();
+    States finalStates = tuple.getFinalStates();
     State nextState = initialState;
     for (String character : split) {
       nextState = transitions.process(nextState, character);

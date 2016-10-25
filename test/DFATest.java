@@ -1,15 +1,10 @@
-import commons.DFATransition;
-import commons.ITransition;
-import commons.State;
-import commons.Tuple;
+import commons.*;
 import finiteAutomata.DFA;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class DFATest {
   private ITransition<State> transitions = new DFATransition();
@@ -23,18 +18,17 @@ public class DFATest {
   @Test
   public void shouldReturnTrueIfLanguageAcceptTheString() throws Exception {
     transitions.setTransition(q1, q2, "0");
-    Set<State> states = new HashSet<State>() {{
-      add(q1);
-      add(q2);
-    }};
+    States states = new States();
+    states.add(q1);
+    states.add(q2);
+
     List<String> alphabets = new ArrayList<String>() {{
       add("0");
       add("1");
     }};
     State initialState = q1;
-    Set<State> finalStates = new HashSet<State>() {{
-      add(q2);
-    }};
+    States finalStates = new States();
+    finalStates.add(q2);
 
     Tuple tuple = new Tuple(states, alphabets, transitions, initialState, finalStates);
 
@@ -53,20 +47,19 @@ public class DFATest {
     transitions.setTransition(q3, q3, "1");
     transitions.setTransition(q3, q3, "0");
 
-    Set<State> states = new HashSet<State>() {{
-      add(q1);
-      add(q2);
-      add(q3);
-    }};
+    States states = new States();
+    states.add(q1);
+    states.add(q2);
+    states.add(q3);
+
     List<String> alphabets = new ArrayList<String>() {{
       add("1");
       add("0");
     }};
     State initialState = q1;
-    Set<State> finalStates = new HashSet<State>() {{
-      add(q1);
-      add(q2);
-    }};
+    States finalStates = new States();
+    finalStates.add(q1);
+    finalStates.add(q2);
     Tuple tuple = new Tuple(states, alphabets, transitions, initialState, finalStates);
     DFA dfa = new DFA(tuple, null);
 
@@ -89,22 +82,23 @@ public class DFATest {
     transitions.setTransition(q6, q6, "0");
     transitions.setTransition(q6, q6, "1");
 
-    Set<State> states = new HashSet<State>() {{
-      add(q1);
-      add(q2);
-      add(q3);
-      add(q4);
-      add(q5);
-      add(q6);
-    }};
+    States states = new States();
+    states.add(q1);
+    states.add(q2);
+    states.add(q3);
+    states.add(q4);
+    states.add(q5);
+    states.add(q6);
+
     List<String> alphabets = new ArrayList<String>() {{
       add("1");
       add("0");
     }};
+
     State initialState = q1;
-    Set<State> finalStates = new HashSet<State>() {{
-      add(q5);
-    }};
+    States finalStates = new States();
+    finalStates.add(q5);
+
     Tuple tuple = new Tuple(states, alphabets, transitions, initialState, finalStates);
 
     DFA dfa = new DFA(tuple, null);

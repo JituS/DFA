@@ -7,9 +7,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class JsonToFAParserTest {
   @Test
@@ -24,21 +22,25 @@ public class JsonToFAParserTest {
       "\"pass-cases\":[\"0\"]," +
       "\"fail-cases\":[\"00\"]}";
 
-    Builder builder = new Builder((JSONObject) new JSONParser().parse(jsonString));
+    JSONObject jsonObject = (JSONObject) new JSONParser().parse(jsonString);
+
+    Builder builder = new Builder(jsonObject);
 
     FiniteAutomata actualFA = builder.buildFA();
 
-    Assert.assertEquals(getExpectedLanguageObject(), actualFA);
+    Assert.assertEquals(getExpectedFA(), actualFA);
   }
 
-  private DFA getExpectedLanguageObject() {
+  private DFA getExpectedFA() {
     State q1 = new State("q1");
     ITransition<State> transitions = new DFATransition();
     transitions.setTransition(q1, q1, "1");
     transitions.setTransition(q1, q1, "0");
-    Set<State> states = new HashSet<State>() {{add(q1);}};
+    States states = new States();
+    states.add(q1);
     List<String> alphabets = new ArrayList<String>() {{add("1");}};
-    Set<State> finalStates = new HashSet<State>() {{add(q1);}};
+    States finalStates = new States();
+    finalStates.add(q1);
     Tuple expectedTuple = new Tuple(states, alphabets, transitions, q1, finalStates);
 
     return new DFA(expectedTuple, "odd number of zeroes");
