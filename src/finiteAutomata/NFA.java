@@ -53,9 +53,9 @@ public class NFA implements FiniteAutomata {
 
   private Tuple<State> getDfaTuple(States states, State initialState, DFATransition transition, States finalStates, Set<States> allMachinesStates) {
     Set<States> allMachines = new HashSet<>();
-    for (String alphabet : tuple.getAlphabets()) {
+    ITransition<States> transitions = tuple.getTransitions();
+    tuple.getAlphabets().forEach(alphabet -> {
       for (States machineState : allMachinesStates) {
-        ITransition<States> transitions = tuple.getTransitions();
         States nextState = transitions.process(machineState, alphabet);
         if (nextState.size() == 0) continue;
         State nextStateName = nextState.stateName();
@@ -66,7 +66,7 @@ public class NFA implements FiniteAutomata {
           states.add(nextStateName);
         }
       }
-    }
+    });
     return (allMachines.size() == 0) ? new Tuple<>(states, tuple.getAlphabets(), transition, initialState, finalStates)
       : getDfaTuple(states, initialState, transition, finalStates, allMachines);
   }
