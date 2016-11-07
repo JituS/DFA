@@ -1,7 +1,7 @@
 package commons;
 
 public class State {
-   public String stateName;
+  String stateName;
 
   public State(String stateName) {
     this.stateName = stateName;

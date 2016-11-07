@@ -1,15 +1,14 @@
 package finiteAutomata;
-
 import com.thoughtworks.testrunner.FiniteAutomata;
 import commons.*;
-
 import java.util.HashSet;
+import java.util.Set;
 
 public class NFA implements FiniteAutomata {
-  private Tuple tuple;
+  private Tuple<States> tuple;
   private String machineName;
 
-  public NFA(Tuple tuple, String machineName) {
+  public NFA(Tuple<States> tuple, String machineName) {
     this.tuple = tuple;
     this.machineName = machineName;
   }
@@ -33,47 +32,43 @@ public class NFA implements FiniteAutomata {
     return machineName;
   }
 
-  public DFA toDFA() {
-    ITransition<States> transitions = tuple.getTransitions();
-
-    States initialState = new States();
-    initialState.add(tuple.getInitialState());
-    States initialStates = transitions.process(initialState, "");
-
-    States dfaFinalStates = new States();
-
-    if(initialStates.containsAny(tuple.getFinalStates())) {
-      dfaFinalStates.add(initialStates.stateName());
+  private void addFinalState(States states, States finalStates) {
+    if (states.containsAny(tuple.getFinalStates())) {
+      finalStates.add(states.stateName());
     }
-
-    States dfaStates = new States();
-    dfaStates.add(initialStates.stateName());
-    Tuple dfaTuple = new Tuple(dfaStates, tuple.getAlphabets(), new DFATransition(), initialStates.stateName(), dfaFinalStates);
-
-    populateDFATuple(new HashSet<States>(){{add(initialStates);}}, dfaTuple);
-    return new DFA(dfaTuple, machineName);
   }
 
-  private Tuple populateDFATuple(HashSet<States> currentStates, Tuple dfaTuple) {
-    HashSet<States> nextStates = new HashSet<>();
+  public DFA toDFA() {
+    ITransition<States> nfaTransitions = tuple.getTransitions();
+    States dfaInitialStates = nfaTransitions.process(new States(){{add(tuple.getInitialState());}}, "");
+    States dfaStates = new States(){{dfaInitialStates.stateName();}};
+    States dfaFinalStates = new States();
+    addFinalState(dfaInitialStates, dfaFinalStates);
+    Set<States> allMachinesStates = new HashSet<States>() {{
+      add(dfaInitialStates);
+    }};
+    Tuple<State> tuple = getDfaTuple(dfaStates, dfaInitialStates.stateName(), new DFATransition(), dfaFinalStates, allMachinesStates);
+    return new DFA(tuple, machineName);
+  }
+
+  private Tuple<State> getDfaTuple(States states, State initialState, DFATransition transition, States finalStates, Set<States> allMachinesStates) {
+    Set<States> allMachines = new HashSet<>();
     for (String alphabet : tuple.getAlphabets()) {
-      for (States currentState : currentStates) {
+      for (States machineState : allMachinesStates) {
         ITransition<States> transitions = tuple.getTransitions();
-        States nextState = transitions.process(currentState, alphabet);
+        States nextState = transitions.process(machineState, alphabet);
         if (nextState.size() == 0) continue;
         State nextStateName = nextState.stateName();
-        ITransition<State> dfaTransitions = dfaTuple.getTransitions();
-        dfaTransitions.setTransition(currentState.stateName(), nextStateName, alphabet);
-        if(nextState.containsAny(tuple.getFinalStates())) {
-          dfaTuple.getFinalStates().add(nextStateName);
-        }
-        if(!dfaTuple.getStates().contains(nextStateName)){
-          nextStates.add(nextState);
-          dfaTuple.getStates().add(nextStateName);
+        transition.setTransition(machineState.stateName(), nextStateName, alphabet);
+        addFinalState(nextState, finalStates);
+        if(!states.contains(nextStateName)){
+          allMachines.add(nextState);
+          states.add(nextStateName);
         }
       }
     }
-    return (nextStates.size() == 0) ? dfaTuple : populateDFATuple(nextStates, dfaTuple);
+    return (allMachines.size() == 0) ? new Tuple<>(states, tuple.getAlphabets(), transition, initialState, finalStates)
+      : getDfaTuple(states, initialState, transition, finalStates, allMachines);
   }
 
 
@@ -91,6 +86,4 @@ public class NFA implements FiniteAutomata {
     result = 31 * result + (machineName != null ? machineName.hashCode() : 0);
     return result;
   }
-
-
 }

@@ -30,7 +30,7 @@ public class DFATest {
     States finalStates = new States();
     finalStates.add(q2);
 
-    Tuple tuple = new Tuple(states, alphabets, transitions, initialState, finalStates);
+    Tuple<State> tuple = new Tuple<>(states, alphabets, transitions, initialState, finalStates);
 
     DFA dfa = new DFA(tuple, null);
 
@@ -60,7 +60,7 @@ public class DFATest {
     States finalStates = new States();
     finalStates.add(q1);
     finalStates.add(q2);
-    Tuple tuple = new Tuple(states, alphabets, transitions, initialState, finalStates);
+    Tuple<State> tuple = new Tuple<>(states, alphabets, transitions, initialState, finalStates);
     DFA dfa = new DFA(tuple, null);
 
     boolean result = dfa.verify("1010");
@@ -99,7 +99,7 @@ public class DFATest {
     States finalStates = new States();
     finalStates.add(q5);
 
-    Tuple tuple = new Tuple(states, alphabets, transitions, initialState, finalStates);
+    Tuple<State> tuple = new Tuple<>(states, alphabets, transitions, initialState, finalStates);
 
     DFA dfa = new DFA(tuple, null);
 

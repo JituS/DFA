@@ -41,7 +41,7 @@ public class JsonToFAParserTest {
     List<String> alphabets = new ArrayList<String>() {{add("1");}};
     States finalStates = new States();
     finalStates.add(q1);
-    Tuple expectedTuple = new Tuple(states, alphabets, transitions, q1, finalStates);
+    Tuple<State> expectedTuple = new Tuple<>(states, alphabets, transitions, q1, finalStates);
 
     return new DFA(expectedTuple, "odd number of zeroes");
   }

@@ -2,8 +2,7 @@ package commons;
 
 import java.util.*;
 
-public class NFATransition extends ITransition<States> {
-
+class NFATransition extends ITransition<States> {
   private final String epsilon = "e";
   private Map<State, Map<String, States>> transitions = new HashMap<>();
 
@@ -43,11 +42,9 @@ public class NFATransition extends ITransition<States> {
     Iterator<State> stateIterator = states.iterator();
     while (stateIterator.hasNext()) {
       State state = stateIterator.next();
-      Map<String, States> connectedStates = transitions.get(state);
-      try {
-        transitStates.addAll(connectedStates.get(alphabet));
-      } catch (Exception ignored) {
-      }
+      Map<String, States> possibleStates = transitions.get(state);
+      try { transitStates.addAll(possibleStates.get(alphabet));}
+      catch (Exception ignored) {}
     }
     try {
       if (!states.isEmpty()) {

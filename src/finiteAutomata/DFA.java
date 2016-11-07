@@ -7,10 +7,10 @@ import commons.States;
 import commons.Tuple;
 
 public class DFA implements FiniteAutomata {
-  private Tuple tuple;
+  private Tuple<State> tuple;
   private String name;
 
-  public DFA(Tuple tuple, String name) {
+  public DFA(Tuple<State> tuple, String name) {
     this.tuple = tuple;
     this.name = name;
   }

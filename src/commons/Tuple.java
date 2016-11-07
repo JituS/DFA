@@ -2,10 +2,10 @@ package commons;
 
 import java.util.List;
 
-public class Tuple {
+public class Tuple<T> {
   private States states;
   private List<String> alphabets;
-  private ITransition transitions;
+  private ITransition<T> transitions;
   private State initialState;
   private States finalStates;
 
@@ -17,7 +17,7 @@ public class Tuple {
     return states;
   }
 
-  public Tuple(States states, List<String> alphabets, ITransition transitions, State initialState, States finalStates){
+  public Tuple(States states, List<String> alphabets, ITransition<T> transitions, State initialState, States finalStates){
     this.states = states;
     this.alphabets = alphabets;
     this.transitions = transitions;
@@ -25,7 +25,7 @@ public class Tuple {
     this.finalStates = finalStates;
   }
 
-  public ITransition getTransitions() {
+  public ITransition<T> getTransitions() {
     return transitions;
   }
 
